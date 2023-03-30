@@ -1,4 +1,4 @@
-import { Container, Header, Grid } from 'semantic-ui-react'
+import { Container, Header, Grid, Segment, Divider } from 'semantic-ui-react'
 import Cards from './Cards'
 
 const Home = () => (
@@ -12,6 +12,7 @@ const Home = () => (
                     marginTop: '0.5em',
                 }}
         />
+        {/* <Segment> */}
         <Grid divided='vertically' style={{marginLeft: "0.6em"}}>
             <Grid.Row columns={2}>
                 <Grid.Column>
@@ -22,6 +23,7 @@ const Home = () => (
                 </Grid.Column>
             </Grid.Row>
         </Grid>
+        {/* </Segment> */}
     </Container>
 )
 

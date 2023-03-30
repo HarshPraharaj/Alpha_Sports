@@ -12,7 +12,7 @@ const Cards = (props: {title: string, image: string, route: string}) => {
     }
 
     return (
-        <Card style={{marginTop: '2.5em'}}>
+        <Card style={{marginTop: '2.5em', background: 'silver'}}>
             <Image src={assets[props.image]} wrapped ui={true} />
             <Card.Content>
             <Card.Header>{props.title}</Card.Header>

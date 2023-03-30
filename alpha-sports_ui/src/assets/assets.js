@@ -1,5 +1,5 @@
 const assetsObject = {
-    analyticsIcon: require('../images/analytics-icon.png'),
-    serviceIcon: require('../images/services-icon.png')
+    analyticsIcon: require('../images/analytics.jpg'),
+    serviceIcon: require('../images/analytics.jpg')
   }
 module.exports = assetsObject
