@@ -3,6 +3,7 @@ import Home from './components/Home'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import PlayerDropdown from './components/PlayerDropdown'
 import Analytics from './components/Analytics'
+import RadarChart from './components/RadarChart'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
           <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/analytics' element={<Analytics/>}/>
+          <Route path='/RadarChart' element={<RadarChart/>}/>
           <Route path='/recommendations' element={<PlayerDropdown/>}/>
           </Routes>
       </Router>
