@@ -20,9 +20,9 @@ logger.addHandler(handler)
 # Configuration settings
 RECOMMENDATION_LIMIT = 20
 
-def get_similar_players_by_rank(rank, num_results=RECOMMENDATION_LIMIT):
+def get_similar_players(rank, num_results=RECOMMENDATION_LIMIT):
     """
-    Given a player rank, returns a list of the most similar players based on their statistical performance.
+    Given a player id, returns a list of the most similar players based on their statistical performance.
     """
     input_vector = stats_vectors.iloc[fw_features.index[fw_features['Rk'] == rank].tolist()[0]].values
     similarity_scores = cosine_similarity([input_vector], stats_vectors)[0]
@@ -67,7 +67,7 @@ def recommend(player_id):
     Endpoint to retrieve a list of recommended players for a given player ID.
     """
     try:
-        recommendations = get_similar_players_by_rank(player_id, RECOMMENDATION_LIMIT)[1:]
+        recommendations = get_similar_players(player_id, RECOMMENDATION_LIMIT)[1:]
         return render_template('results.html', recommendations=recommendations, num_results=RECOMMENDATION_LIMIT)
     except Exception as e:
         logger.exception(f"Error retrieving recommendations for player {player_id}: {str(e)}")
