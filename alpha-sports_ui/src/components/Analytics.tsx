@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
-import { Card, Icon, Image, Button, Item, Label } from 'semantic-ui-react'
+import { useNavigate } from 'react-router-dom'
+import { Card, Icon, Button } from 'semantic-ui-react'
 
 const Analytics = () => {
 

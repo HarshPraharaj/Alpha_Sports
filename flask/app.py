@@ -6,9 +6,10 @@ from flask import Flask, render_template, request, jsonify # type: ignore
 from pymongo import MongoClient # type: ignore
 from flask_cors import CORS, cross_origin
 from sklearn.metrics.pairwise import cosine_similarity
+from flask_cors import CORS, cross_origin
+
 
 app = Flask(__name__)
-
 CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -66,7 +67,7 @@ def get_player_names():
     """
     try:
         player_names = list(db.football_players.find({}, {"Player": 1, "Rk": 1, "_id": 0}))
-        res = [{"key": player["Rk"], "text": player["Player"], "value": player["Player"]} for player in player_names]
+        res = [{"key": player["Rk"], "text": player["Player"], "value": player["Rk"]} for player in player_names]
         return jsonify(res)
     except Exception as e:
         logger.exception(f"Error retrieving player names: {str(e)}")
@@ -87,8 +88,8 @@ def recommend(player_id):
     """
     try:
         recommendations = get_similar_players(player_id, RECOMMENDATION_LIMIT)[1:]
-        print(recommendations)
-        return render_template('results.html', recommendations=recommendations, num_results=RECOMMENDATION_LIMIT)
+        return jsonify(recommendations)
+       #return render_template('results.html', recommendations=recommendations, num_results=RECOMMENDATION_LIMIT)
     except Exception as e:
         logger.exception(f"Error retrieving recommendations for player {player_id}: {str(e)}")
         return render_template('error.html')

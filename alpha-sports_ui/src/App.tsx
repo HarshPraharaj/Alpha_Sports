@@ -1,9 +1,9 @@
 import './App.css'
 import Home from './components/Home'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import PlayerDropdown from './components/PlayerDropdown'
 import Analytics from './components/Analytics'
 import RadarChart from './components/RadarChart'
+import PlayerRecommendation from './components/PlayerRecommendation'
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/analytics' element={<Analytics/>}/>
           <Route path='/RadarChart' element={<RadarChart/>}/>
-          <Route path='/recommendations' element={<PlayerDropdown/>}/>
+          <Route path='/recommendations' element={<PlayerRecommendation/>}/>
           </Routes>
       </Router>
     </div>
