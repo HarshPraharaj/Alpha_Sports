@@ -1,12 +1,16 @@
 import os
 import logging
 import pandas as pd
-import numpy as np
-from flask import Flask, render_template, request, jsonify
-from pymongo import MongoClient
+import numpy as np # type: ignore
+from flask import Flask, render_template, request, jsonify # type: ignore
+from pymongo import MongoClient # type: ignore
+from flask_cors import CORS, cross_origin
 from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Configure logger to print logs to stdout
 logger = logging.getLogger(__name__)
@@ -27,7 +31,20 @@ def get_similar_players(rank, num_results=RECOMMENDATION_LIMIT):
     input_vector = stats_vectors.iloc[fw_features.index[fw_features['Rk'] == rank].tolist()[0]].values
     similarity_scores = cosine_similarity([input_vector], stats_vectors)[0]
     closest_rows = fw_features.iloc[np.argsort(similarity_scores)[::-1][:num_results+1]]
-    return closest_rows['Player'].tolist()
+
+    similar_players = []
+    for _, row in closest_rows.iterrows():
+        player = {
+            "id": int(row["Rk"]),
+            "name": row["Player"],
+            "position": row["Pos"],
+            "age": int(row["Age"]),
+            "team": row["Squad"],
+            "league": row["Comp"],
+            "similarity": round(similarity_scores[row.name],4)
+        }
+        similar_players.append(player)
+    return similar_players
 
 def get_mongo_connection():
     """
@@ -62,12 +79,14 @@ def index():
     return render_template('index.html')
 
 @app.route('/recommend/<int:player_id>')
+@cross_origin(origin='*', headers=['Content-Type'])
 def recommend(player_id):
     """
     Endpoint to retrieve a list of recommended players for a given player ID.
     """
     try:
         recommendations = get_similar_players(player_id, RECOMMENDATION_LIMIT)[1:]
+        print(recommendations)
         return render_template('results.html', recommendations=recommendations, num_results=RECOMMENDATION_LIMIT)
     except Exception as e:
         logger.exception(f"Error retrieving recommendations for player {player_id}: {str(e)}")
@@ -75,10 +94,10 @@ def recommend(player_id):
 
 if __name__ == '__main__':
     try:
-        # Load player stats from file
-        player_stats_og_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'football_rec', 'player_stats.csv')
-        player_stats_og = pd.read_csv(player_stats_og_path, sep=';', encoding='latin-1')
-        fw_features = player_stats_og.copy()
+        # Load player stats from MongoDB into a Pandas dataframe
+        db = get_mongo_connection()
+        player_stats = list(db.football_players.find({}, {"_id": 0}))
+        fw_features = pd.DataFrame(player_stats)
 
         # Normalize feature values
         norms = np.linalg.norm(fw_features.iloc[:, 7:], axis=0)
