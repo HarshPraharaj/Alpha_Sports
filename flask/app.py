@@ -41,9 +41,10 @@ def get_similar_players(rank, num_results=RECOMMENDATION_LIMIT):
             "age": int(row["Age"]),
             "team": row["Squad"],
             "league": row["Comp"],
-            "similarity": round(similarity_scores[row.name],4)
+            "similarity": str(round(similarity_scores[row.name],2)*100) + "%",
         }
         similar_players.append(player)
+    print(similar_players)
     return similar_players
 
 def get_mongo_connection():
