@@ -1,5 +1,4 @@
-import React from "react";
-import { Button, Modal, Table } from "semantic-ui-react";
+import { Modal, Table } from "semantic-ui-react";
 import { Radar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { RadialLinearScale } from "chart.js";
