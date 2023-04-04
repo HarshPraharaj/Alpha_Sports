@@ -29,12 +29,12 @@ def get_similar_players(rank, num_results=RECOMMENDATION_LIMIT):
     """
     Given a player id, returns a list of the most similar players based on their statistical performance.
     """
-    input_vector = stats_vectors.iloc[fw_features.index[fw_features['Rk'] == rank].tolist()[0]].values
+    input_vector = stats_vectors.iloc[fw_features.index[fw_features['Rk'] == rank].tolist()[0]].values #type: ignore
     similarity_scores = cosine_similarity([input_vector], stats_vectors)[0]
     closest_rows = fw_features.iloc[np.argsort(similarity_scores)[::-1][:num_results+1]]
 
     similar_players = []
-    for _, row in closest_rows.iterrows():
+    for _, row in closest_rows.iterrows(): #type: ignore
         player = {
             "id": int(row["Rk"]),
             "name": row["Player"],
@@ -80,16 +80,17 @@ def index():
     """
     return render_template('index.html')
 
-@app.route('/recommend/<int:player_id>')
-@cross_origin(origin='*', headers=['Content-Type'])
-def recommend(player_id):
+@app.route('/recommend')
+@cross_origin(origin='*', headers=['Content-Type']) #type: ignore
+def recommend():
     """
     Endpoint to retrieve a list of recommended players for a given player ID.
     """
+    player_id = int(request.args.get('player_id'))
     try:
         recommendations = get_similar_players(player_id, RECOMMENDATION_LIMIT)[1:]
         return jsonify(recommendations)
-       #return render_template('results.html', recommendations=recommendations, num_results=RECOMMENDATION_LIMIT)
+
     except Exception as e:
         logger.exception(f"Error retrieving recommendations for player {player_id}: {str(e)}")
         return render_template('error.html')

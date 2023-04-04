@@ -185,7 +185,7 @@ export const getPlayersApi = () => {
 }
 
 export const getRecommendationsApi = (filters: {id: number, team: string, league: string}) => {
-    const endpoint = 'http://127.0.0.1:5000/recommend/' + filters.id
+    const endpoint = 'http://127.0.0.1:5000/recommend?player_id=' + filters.id
     return axios.get(endpoint)
         .then(response => {
             console.log(response)
