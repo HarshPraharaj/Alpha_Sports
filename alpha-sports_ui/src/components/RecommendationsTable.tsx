@@ -1,12 +1,21 @@
 import React from 'react'
+import { useState } from 'react'
 import { Button, Table } from 'semantic-ui-react'
 import PlayerComparison from './PlayerComparison'
+import { getComparisonApi } from '../api/PlayerRecApi'
 
-const RecommendationsTable = (props: {recPlayers: any}) => {
+
+const RecommendationsTable = (props: {queryPlayerId: number, recPlayers: any}) => {
     
     const [showComparison, setShowComparison] = React.useState(false);
-    const onCompareClick = (player: any) => {
-        console.log('Clicked on: ', {player})
+    const [data, setData] = useState([])
+    
+    const onCompareClick = async (player: any) => {
+        console.log('Clicked on: ', player)
+        console.log('To compare with', props.queryPlayerId)
+        // API Call to get comparison data
+        const response: any = await getComparisonApi(player.id, props.queryPlayerId)
+        setData(response.data)
         setShowComparison(true)
     }
     const handleCloseComparison = () => {
@@ -43,7 +52,7 @@ const RecommendationsTable = (props: {recPlayers: any}) => {
             {tableRows}
             </Table.Body>
         </Table>
-        {showComparison && <PlayerComparison open={showComparison} handleClose={handleCloseComparison} />}
+        {showComparison && <PlayerComparison data={data} open={showComparison} handleClose={handleCloseComparison} />}
         </div>
     )
 }

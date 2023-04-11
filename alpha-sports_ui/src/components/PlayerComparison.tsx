@@ -9,47 +9,73 @@ Object.keys(registerables).forEach((name: any) => {
   Chart.register(registerables[name]);
 });
 
-const data = {
-  labels: ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5"],
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: [65, 59, 90, 81, 56],
-      fill: true,
-      backgroundColor: "rgba(255, 99, 132, 0.2)",
-      borderColor: "rgba(255, 99, 132, 1)",
-      pointBackgroundColor: "rgba(255, 99, 132, 1)",
-      pointBorderColor: "#fff",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgba(255, 99, 132, 1)",
-    },
-    {
-      label: "Dataset 2",
-      data: [28, 48, 40, 19, 96],
-      fill: true,
-      backgroundColor: "rgba(54, 162, 235, 0.2)",
-      borderColor: "rgba(54, 162, 235, 1)",
-      pointBackgroundColor: "rgba(54, 162, 235, 1)",
-      pointBorderColor: "#fff",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgba(54, 162, 235, 1)",
-    },
-  ],
-};
+function PlayerComparison(props: { data: any, open: boolean, handleClose: () => void }) {
+  const [player1, player2] = props.data;
 
-const options = {
-  scales: {
-    r: {
-      angleLines: {
-        display: false,
+  const data = {
+    labels: [
+      "Press",
+      "Pass Completion",
+      "Shots on Target",
+      "Pass Completion Final Third",
+      "Aerial Duels Won",
+      "Ball Carries Final Third",
+      "Ball Recovery",
+    ],
+    datasets: [
+      {
+        label: player1.name,
+        data: [
+          player1.press,
+          player1.pass_completion,
+          player1.shots_on_target,
+          player1.pass_completion_final_third,
+          player1.aerial_duels_won,
+          player1.ball_carries_final_third,
+          player1.ball_recovery,
+        ],
+        fill: true,
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        pointBackgroundColor: "rgba(255, 99, 132, 1)",
+        pointBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgba(255, 99, 132, 1)",
       },
-      suggestedMin: 0,
-      suggestedMax: 100,
+      {
+        label: player2.name,
+        data: [
+          player2.press,
+          player2.pass_completion,
+          player2.shots_on_target,
+          player2.pass_completion_final_third,
+          player2.aerial_duels_won,
+          player2.ball_carries_final_third,
+          player2.ball_recovery,
+        ],
+        fill: true,
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        pointBackgroundColor: "rgba(54, 162, 235, 1)",
+        pointBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgba(54, 162, 235, 1)",
+      },
+    ],
+  };
+  
+  const options = {
+    scales: {
+      r: {
+        angleLines: {
+          display: false,
+        },
+        suggestedMin: 0,
+        suggestedMax: 100,
+      },
     },
-  },
-};
+  };
 
-function PlayerComparison(props: { open: boolean, handleClose: () => void }) {
   return (
     <Modal onClose={props.handleClose} open={props.open}>
       <Modal.Header>Player Comparison</Modal.Header>
@@ -58,11 +84,11 @@ function PlayerComparison(props: { open: boolean, handleClose: () => void }) {
           {/* First column */}
           <div className="column" style={{ color: "black" }}>
             <h2 style={{ color: "black" }}>Player 1 Details</h2>
-            <p style={{ color: "black" }}>League name: </p>
-            <p style={{ color: "black" }}>Club: </p>
-            <p style={{ color: "black" }}>Player name: </p>
+            <p style={{ color: "black" }}>League name: {player1.league}</p>
+            <p style={{ color: "black" }}>Club:{player1.club} </p>
+            <p style={{ color: "black" }}>Player name:{player1.name} </p>
             <img
-              src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ratings/common/player-small-portraits/209658.png"
+              src={`https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ratings/common/player-small-portraits/${player1.id}.png`}
               alt="Player 1 portrait"
               style={{ maxWidth: "100%", height: "auto" }}
             />
@@ -105,11 +131,11 @@ function PlayerComparison(props: { open: boolean, handleClose: () => void }) {
           {/* Third column */}
           <div className="column" style={{ color: "black" }}>
             <h2 style={{ color: "black" }}>Player 2 Details</h2>
-            <p style={{ color: "black" }}>League name: </p>
-            <p style={{ color: "black" }}>Club: </p>
-            <p style={{ color: "black" }}>Player name: </p>
+            <p style={{ color: "black" }}>League name: {player2.league}</p>
+            <p style={{ color: "black" }}>Club: {player2.club}</p>
+            <p style={{ color: "black" }}>Player name: {player2.name}</p>
             <img
-              src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ratings/common/player-small-portraits/158023.png"
+              src={`https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ratings/common/player-small-portraits/${player2.id}.png`}
               alt="Player 2 portrait"
               style={{ maxWidth: "100%", height: "auto" }}
             />
