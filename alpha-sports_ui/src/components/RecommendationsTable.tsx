@@ -1,11 +1,26 @@
 import React from 'react'
-import { Button, Icon, Menu, Table } from 'semantic-ui-react'
+import { useState } from 'react'
+import { Button, Table } from 'semantic-ui-react'
+import PlayerComparison from './PlayerComparison'
+import { getComparisonApi } from '../api/PlayerRecApi'
 
-const RecommendationsTable = (props: {recPlayers: any}) => {
 
-    const onCompareClick = (player: any) => {
-        console.log('Clicked on: ', {player})
+const RecommendationsTable = (props: {queryPlayerId: number, recPlayers: any}) => {
+    
+    const [showComparison, setShowComparison] = React.useState(false);
+    const [data, setData] = useState([])
+    
+    const onCompareClick = async (player: any) => {
+        console.log('Clicked on: ', player)
+        console.log('To compare with', props.queryPlayerId)
+        // API Call to get comparison data
+        const response: any = await getComparisonApi(player.id, props.queryPlayerId)
+        setData(response.data)
+        setShowComparison(true)
     }
+    const handleCloseComparison = () => {
+        setShowComparison(false);
+    };
 
     const tableRows = props.recPlayers && props.recPlayers.map((player: any) => (
         <Table.Row>
@@ -20,7 +35,8 @@ const RecommendationsTable = (props: {recPlayers: any}) => {
     ))
 
     return (
-        <Table celled style={{marginTop: '5em'}}>
+        <div>
+            <Table celled style={{marginTop: '5em'}}>
             <Table.Header>
             <Table.Row>
                 <Table.HeaderCell>Name</Table.HeaderCell>
@@ -35,25 +51,9 @@ const RecommendationsTable = (props: {recPlayers: any}) => {
             <Table.Body>
             {tableRows}
             </Table.Body>
-            {/* <Table.Footer>
-            <Table.Row>
-                <Table.HeaderCell colSpan='3'>
-                <Menu floated='right' pagination>
-                    <Menu.Item as='a' icon>
-                    <Icon name='chevron left' />
-                    </Menu.Item>
-                    <Menu.Item as='a'>1</Menu.Item>
-                    <Menu.Item as='a'>2</Menu.Item>
-                    <Menu.Item as='a'>3</Menu.Item>
-                    <Menu.Item as='a'>4</Menu.Item>
-                    <Menu.Item as='a' icon>
-                    <Icon name='chevron right' />
-                    </Menu.Item>
-                </Menu>
-                </Table.HeaderCell>
-            </Table.Row>
-            </Table.Footer> */}
         </Table>
+        {showComparison && <PlayerComparison data={data} open={showComparison} handleClose={handleCloseComparison} />}
+        </div>
     )
 }
 

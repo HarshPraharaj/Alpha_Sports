@@ -14,13 +14,13 @@ def mongoimport(csv_path, db_name, collection_name, db_url='localhost', db_port=
         coll.drop()
         print('collection dropped')
     coll = db[collection_name]
-    data = pd.read_csv(csv_path,sep = ';',encoding = 'latin-1')
+    data = pd.read_csv(csv_path)
     payload = json.loads(data.to_json(orient='records'))
     coll.insert_many(payload)
     print(f'{len(data)} rows inserted')
     
 if __name__ == "__main__":
-    csv_path = 'data/football_rec/player_stats.csv'
+    csv_path = 'data/football_rec/player_stats_processed.csv'
     db_name = 'alpha_sport'
     collection_name = 'football_players'
     mongoimport(csv_path, db_name, collection_name, db_url='localhost', db_port=27017)

@@ -29,12 +29,12 @@ def get_similar_players(rank, num_results=RECOMMENDATION_LIMIT):
     """
     Given a player id, returns a list of the most similar players based on their statistical performance.
     """
-    input_vector = stats_vectors.iloc[fw_features.index[fw_features['Rk'] == rank].tolist()[0]].values
+    input_vector = stats_vectors.iloc[fw_features.index[fw_features['Rk'] == rank].tolist()[0]].values #type: ignore
     similarity_scores = cosine_similarity([input_vector], stats_vectors)[0]
     closest_rows = fw_features.iloc[np.argsort(similarity_scores)[::-1][:num_results+1]]
 
     similar_players = []
-    for _, row in closest_rows.iterrows():
+    for _, row in closest_rows.iterrows(): #type: ignore
         player = {
             "id": int(row["Rk"]),
             "name": row["Player"],
@@ -56,6 +56,23 @@ def get_mongo_connection():
     client = MongoClient(mongo_connection_string)
     db = client['alpha_sport']
     return db
+
+
+def process_player_data(raw_data):
+    return {
+        "id": raw_data["ID"],
+        "name": raw_data["Player"],
+        "club": raw_data["Squad"],
+        "league": raw_data["Comp"],
+        "press": raw_data["Press%"],
+        "pass_completion": raw_data["PasTotCmp%"],
+        "shots_on_target": raw_data["SoT%"],
+        "pass_completion_final_third": raw_data["Pas3rd"],
+        "aerial_duels_won": raw_data["AerWon%"],
+        "ball_carries_final_third": raw_data["Car3rd"],
+        "ball_recovery": raw_data["Rec%"]
+    }
+
 
 # Create a database connection
 db = get_mongo_connection()
@@ -80,19 +97,45 @@ def index():
     """
     return render_template('index.html')
 
-@app.route('/recommend/<int:player_id>')
-@cross_origin(origin='*', headers=['Content-Type'])
-def recommend(player_id):
+@app.route('/recommend')
+@cross_origin(origin='*', headers=['Content-Type']) #type: ignore
+def recommend():
     """
     Endpoint to retrieve a list of recommended players for a given player ID.
     """
+    player_id = int(request.args.get('player_id', 0))
     try:
         recommendations = get_similar_players(player_id, RECOMMENDATION_LIMIT)[1:]
         return jsonify(recommendations)
-       #return render_template('results.html', recommendations=recommendations, num_results=RECOMMENDATION_LIMIT)
+
     except Exception as e:
         logger.exception(f"Error retrieving recommendations for player {player_id}: {str(e)}")
         return render_template('error.html')
+    
+@app.route('/compare', methods=['GET'])
+def compare():
+    """
+    Endpoint to retrieve relevant data for two players given their player IDs.
+    """
+    player_id1 = int(request.args.get('player_id1', 0))
+    player_id2 = int(request.args.get('player_id2', 0))
+    
+    try:
+        player1_raw_data = db.football_players.find_one({"Rk": player_id1}, {"_id": 0,'ID':1 ,'Player': 1,'Comp': 1, 'Squad': 1 ,'Press%': 1,'PasTotCmp%': 1,'SoT%':1,'Pas3rd':1,'AerWon%':1,'Car3rd':1,'Rec%':1})
+        player2_raw_data = db.football_players.find_one({"Rk": player_id2}, {"_id": 0,'ID':1 ,'Player': 1,'Comp': 1, 'Squad': 1 ,'Press%': 1,'PasTotCmp%': 1,'SoT%':1,'Pas3rd':1,'AerWon%':1,'Car3rd':1,'Rec%':1})
+
+        if not player1_raw_data or not player2_raw_data:
+            return jsonify({"error": "Invalid player IDs"}), 400
+        
+        player1_data = process_player_data(player1_raw_data)
+        player2_data = process_player_data(player2_raw_data)
+
+        return jsonify([player1_data, player2_data])
+    
+    except Exception as e:
+        logger.exception(f"Error retrieving data for players {player_id1} and {player_id2}: {str(e)}")
+        return jsonify({"error": "An error occurred while fetching the data"}), 500
+
 
 if __name__ == '__main__':
     try:

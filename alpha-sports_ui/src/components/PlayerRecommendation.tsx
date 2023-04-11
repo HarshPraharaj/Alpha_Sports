@@ -92,7 +92,7 @@ const PlayerRecommendation = () => {
                 </Grid.Column>
             </Grid.Row>
         </Grid>
-            {showTable && recommendations && <RecommendationsTable recPlayers={recommendations}/>}
+            {showTable && recommendations && <RecommendationsTable queryPlayerId={playerFilters.id}   recPlayers={recommendations}/>}
         </Container>
     )
 }
