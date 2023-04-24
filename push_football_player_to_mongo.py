@@ -6,7 +6,7 @@ def mongoimport(csv_path, db_name, collection_name, db_url='localhost', db_port=
     """ Imports a csv file at path csv_name to a mongo colection
     returns: count of the documants in the new collection
     """
-    client = pymongo.MongoClient(db_url, db_port)
+    client = pymongo.MongoClient(db_url)
     db = client[db_name]
     collist = db.list_collection_names()
     if 'football_players' in collist:
@@ -23,4 +23,5 @@ if __name__ == "__main__":
     csv_path = 'data/football_rec/player_stats_processed.csv'
     db_name = 'alpha_sport'
     collection_name = 'football_players'
-    mongoimport(csv_path, db_name, collection_name, db_url='localhost', db_port=27017)
+    mongo_atlas_uri = "mongodb+srv://admin:ddsgrp10@grp10-c1.h89by.mongodb.net/?retryWrites=true&w=majority"
+    mongoimport(csv_path, db_name, collection_name, db_url=mongo_atlas_uri, db_port=27017)
