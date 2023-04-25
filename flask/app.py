@@ -1,4 +1,3 @@
-import os
 import logging
 import pandas as pd
 import numpy as np # type: ignore
@@ -6,7 +5,7 @@ from flask import Flask, render_template, request, jsonify # type: ignore
 from pymongo import MongoClient # type: ignore
 from flask_cors import CORS, cross_origin
 from sklearn.metrics.pairwise import cosine_similarity
-from flask_cors import CORS, cross_origin
+from pymongo.errors import ConnectionFailure
 
 
 app = Flask(__name__)
@@ -22,10 +21,50 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
+
+def get_mongo_connection():
+    """
+    Based on the environment variable, mongo_atlas_uri or mongo_local_uri,
+    Returns a connection to the MongoDB database.
+    """
+    mongo_atlas_uri = "mongodb+srv://admin:ddsgrp10@grp10-c1.h89by.mongodb.net/?retryWrites=true&w=majority"
+    mongo_local_uri = "mongodb://localhost:27017"
+
+    client = None
+    db = None
+
+    # Try connecting to MongoDB Atlas first
+    try:
+        client = MongoClient(mongo_atlas_uri)
+        client.admin.command("ismaster")
+        db = client['alpha_sport']
+    except ConnectionFailure:
+        client = None
+        db = None
+
+    # Fallback to local MongoDB if Atlas connection failed
+    if client is None or db is None:
+        try:
+            client = MongoClient(mongo_local_uri)
+            client.admin.command("ismaster")
+            db = client['alpha_sport']
+        except ConnectionFailure as e:
+            raise Exception("Failed to connect to both MongoDB Atlas and local MongoDB.") from e
+
+    return db
+
 # Configuration settings
 RECOMMENDATION_LIMIT = 20
+db = get_mongo_connection()
+player_stats = list(db.football_players.find({}, {"_id": 0}))
+fw_features = pd.DataFrame(player_stats)
 
-def get_similar_players(rank, num_results=RECOMMENDATION_LIMIT):
+# Normalize feature values
+norms = np.linalg.norm(fw_features.iloc[:, 7:], axis=0)
+norms[norms == 0] = 1e-10
+stats_vectors = fw_features.iloc[:, 7:].apply(lambda x: x/norms, axis=1)
+
+def get_similar_players(rank, stats_vectors, num_results=RECOMMENDATION_LIMIT):
     """
     Given a player id, returns a list of the most similar players based on their statistical performance.
     """
@@ -45,17 +84,7 @@ def get_similar_players(rank, num_results=RECOMMENDATION_LIMIT):
             "similarity": str(round(similarity_scores[row.name],2)*100) + "%",
         }
         similar_players.append(player)
-    print(similar_players)
     return similar_players
-
-def get_mongo_connection():
-    """
-    Returns a connection to the MongoDB database.
-    """
-    mongo_connection_string = "mongodb://localhost:27017" #os.getenv('MONGO_CONNECTION_STRING')
-    client = MongoClient(mongo_connection_string)
-    db = client['alpha_sport']
-    return db
 
 
 def process_player_data(raw_data):
@@ -105,7 +134,7 @@ def recommend():
     """
     player_id = int(request.args.get('player_id', 0))
     try:
-        recommendations = get_similar_players(player_id, RECOMMENDATION_LIMIT)[1:]
+        recommendations = get_similar_players(player_id, stats_vectors, RECOMMENDATION_LIMIT)[1:]
         return jsonify(recommendations)
 
     except Exception as e:
@@ -140,14 +169,6 @@ def compare():
 if __name__ == '__main__':
     try:
         # Load player stats from MongoDB into a Pandas dataframe
-        db = get_mongo_connection()
-        player_stats = list(db.football_players.find({}, {"_id": 0}))
-        fw_features = pd.DataFrame(player_stats)
-
-        # Normalize feature values
-        norms = np.linalg.norm(fw_features.iloc[:, 7:], axis=0)
-        norms[norms == 0] = 1e-10
-        stats_vectors = fw_features.iloc[:, 7:].apply(lambda x: x/norms, axis=1)
 
         # Start Flask application
         app.run(debug=True)

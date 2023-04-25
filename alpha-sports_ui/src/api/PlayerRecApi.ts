@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://20230423t201359-dot-msds-603.uc.r.appspot.com';
+
 const defaultPlayers = [
     {
         key: 1,
@@ -201,7 +203,7 @@ const defaultComparisons = [
 ]
 
 export const getPlayersApi = () => { 
-    return axios.get('http://127.0.0.1:5000/player-names')
+    return axios.get(`${API_BASE_URL}/player-names`)
         .then(response => {
             console.log(response)
             return response
@@ -213,7 +215,7 @@ export const getPlayersApi = () => {
 }
 
 export const getRecommendationsApi = (filters: {id: number, team: string, league: string}) => {
-    const endpoint = 'http://127.0.0.1:5000/recommend?player_id=' + filters.id
+    const endpoint = `${API_BASE_URL}/recommend?player_id=${filters.id}`
     return axios.get(endpoint)
         .then(response => {
             console.log(response)
@@ -227,7 +229,7 @@ export const getRecommendationsApi = (filters: {id: number, team: string, league
 
 export const getComparisonApi = (player_id1: number, player_id2: number) => {
     console.log("Compari API",player_id1, player_id2)
-    const endpoint = 'http://127.0.0.1:5000/compare?player_id1=' + player_id1 + '&player_id2=' + player_id2
+    const endpoint = `${API_BASE_URL}/compare?player_id1=${player_id1}&player_id2=${player_id2}`
     return axios.get(endpoint)
         .then(response => {
             console.log(response)
