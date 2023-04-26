@@ -1,6 +1,6 @@
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
-
 import { useNavigate } from 'react-router-dom'
+import './Cards.css';
 
 const assets = require('../assets/assets.js')
 
@@ -12,8 +12,8 @@ const Cards = (props: {title: string, image: string, route: string}) => {
     }
 
     return (
-        <Card style={{marginTop: '2.5em', background: 'silver'}}>
-            <Image src={assets[props.image]} wrapped ui={true} />
+        <Card style={{marginTop: '2.5em', background: 'white'}}>
+           <Image src={assets[props.image]} wrapped ui={true} className="card-image" />
             <Card.Content>
             <Card.Header>{props.title}</Card.Header>
             {/* <Card.Meta>Joined in 2016</Card.Meta> */}
