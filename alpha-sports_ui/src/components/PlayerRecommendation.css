@@ -1,4 +1,8 @@
 /* PlayerRecommendation.css */
 .player-recommendation-content {
     min-height: 70vh;
-  }  
+  }
+
+  .light-text {
+    color: #f5f5f5;
+  }
