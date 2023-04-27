@@ -4,7 +4,7 @@ import './Cards.css';
 
 const assets = require('../assets/assets.js')
 
-const Cards = (props: {title: string, image: string, route: string}) => {
+const Cards = (props: {title: string, image: string, route: string, text: string, disabled: boolean}) => {
     const navigate = useNavigate();
 
     const loadAnalytics = () => {
@@ -18,12 +18,12 @@ const Cards = (props: {title: string, image: string, route: string}) => {
             <Card.Header>{props.title}</Card.Header>
             {/* <Card.Meta>Joined in 2016</Card.Meta> */}
             <Card.Description>
-                Lorem ipsum something something
+                {props.text}
             </Card.Description>
             </Card.Content>
             <Card.Content extra>
             <a>
-                <Button onClick={loadAnalytics} primary size='large'>
+                <Button onClick={loadAnalytics} primary size='large' disabled={props.disabled}>
                     Try it out
                     <Icon name='arrow right' />
                 </Button>

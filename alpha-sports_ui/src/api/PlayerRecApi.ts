@@ -39,39 +39,39 @@ const defaultPlayers = [
 const defaultRecommendations = [
     {
         id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
+        name:  'Paulo Dybala',
+        position: 'FWD',
         age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
+        team:  'AS Roma',
+        league: 'Serie A',
+        similarity: '98.46%'
     },
     {
         id:  1,
-        name:  'Jay Spearing',
+        name:  'Jack Grealish',
         position: 'MDF',
         age:  24,
-        team:  'Liverpool FC',
+        team:  'Manchester City FC',
         league: 'English Premier League',
-        similarity: '78%'
+        similarity: '96.45%'
     },
     {
         id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
+        name:  'Neymar',
+        position: 'FWD',
         age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
+        team:  'Paris',
+        league: 'Ligue 1',
+        similarity: '92.55%'
     },
     {
         id:  1,
-        name:  'Jay Spearing',
+        name:  'Nabil Fekir',
         position: 'MDF',
         age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
+        team:  'Real Betis',
+        league: 'La Liga',
+        similarity: '89.33%'
     },
     {
         id:  1,
@@ -177,7 +177,7 @@ const defaultRecommendations = [
 const defaultComparisons = [
     {
         id:  209658,
-        name:  'Mario Gotze',
+        name:  'Leon Goretzka',
         club: "Bayer Munich",
         league: "Bundesliga",
         press: 65,
@@ -205,7 +205,7 @@ const defaultComparisons = [
 
 
 export const getPlayersApi = () => { 
-    return axios.get(`${API_BASE_URL}/player-names`)
+    return axios.get(`${API_BASE_URL}/player-names`, {timeout: 2000})
         .then(response => {
             console.log(response)
             return response
@@ -218,7 +218,7 @@ export const getPlayersApi = () => {
 
 export const getRecommendationsApi = (filters: {id: number, team: string, league: string}) => {
     const endpoint = `${API_BASE_URL}/recommend?player_id=${filters.id}`
-    return axios.get(endpoint)
+    return axios.get(endpoint, {timeout: 2000})
         .then(response => {
             console.log(response)
             return response
@@ -232,7 +232,7 @@ export const getRecommendationsApi = (filters: {id: number, team: string, league
 export const getComparisonApi = (player_id1: number, player_id2: number) => {
     console.log("Compari API",player_id1, player_id2)
     const endpoint = `${API_BASE_URL}/compare?player_id1=${player_id1}&player_id2=${player_id2}`
-    return axios.get(endpoint)
+    return axios.get(endpoint, {timeout: 2000})
         .then(response => {
             console.log(response)
             return response
