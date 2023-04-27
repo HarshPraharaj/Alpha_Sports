@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://20230426t173715-dot-msds-603.uc.r.appspot.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://20230426t180918-dot-msds-603.uc.r.appspot.com';
 // "http://127.0.0.1:5000"
 
 const requestTimeout = 5000;
