@@ -69,6 +69,7 @@ const PlayerRecommendation = () => {
                 </Grid.Column>
                 <Grid.Column width={3}>
                     <Dropdown
+                    disabled
                     clearable
                     search
                     placeholder='Max age'
@@ -79,6 +80,7 @@ const PlayerRecommendation = () => {
                 </Grid.Column>
                 <Grid.Column width={4}>
                     <Dropdown
+                    disabled
                     clearable
                     search
                     placeholder='League'

@@ -81,18 +81,20 @@ def get_similar_players(rank, stats_vectors, num_results=RECOMMENDATION_LIMIT):
             "age": int(row["Age"]),
             "team": row["Squad"],
             "league": row["Comp"],
-            "similarity": str(round(similarity_scores[row.name],2)*100) + "%",
+            "similarity": str(round(similarity_scores[row.name]*100, 2)) + "%",
         }
         similar_players.append(player)
     return similar_players
 
 
 def process_player_data(raw_data):
+    print(raw_data)
     return {
         "id": raw_data["ID"],
         "name": raw_data["Player"],
         "club": raw_data["Squad"],
         "league": raw_data["Comp"],
+        "position": raw_data["Pos"],
         "press": raw_data["Press%"],
         "pass_completion": raw_data["PasTotCmp%"],
         "shots_on_target": raw_data["SoT%"],
@@ -150,8 +152,8 @@ def compare():
     player_id2 = int(request.args.get('player_id2', 0))
     
     try:
-        player1_raw_data = db.football_players.find_one({"Rk": player_id1}, {"_id": 0,'ID':1 ,'Player': 1,'Comp': 1, 'Squad': 1 ,'Press%': 1,'PasTotCmp%': 1,'SoT%':1,'Pas3rd':1,'AerWon%':1,'Car3rd':1,'Rec%':1})
-        player2_raw_data = db.football_players.find_one({"Rk": player_id2}, {"_id": 0,'ID':1 ,'Player': 1,'Comp': 1, 'Squad': 1 ,'Press%': 1,'PasTotCmp%': 1,'SoT%':1,'Pas3rd':1,'AerWon%':1,'Car3rd':1,'Rec%':1})
+        player1_raw_data = db.football_players.find_one({"Rk": player_id1}, {"_id": 0,'ID':1 ,'Player': 1,'Comp': 1, 'Squad': 1 ,'Press%': 1,'PasTotCmp%': 1,'SoT%':1,'Pas3rd':1,'AerWon%':1,'Car3rd':1,'Rec%':1,'Pos': 1})
+        player2_raw_data = db.football_players.find_one({"Rk": player_id2}, {"_id": 0,'ID':1 ,'Player': 1,'Comp': 1, 'Squad': 1 ,'Press%': 1,'PasTotCmp%': 1,'SoT%':1,'Pas3rd':1,'AerWon%':1,'Car3rd':1,'Rec%':1,'Pos': 1})
 
         if not player1_raw_data or not player2_raw_data:
             return jsonify({"error": "Invalid player IDs"}), 400
