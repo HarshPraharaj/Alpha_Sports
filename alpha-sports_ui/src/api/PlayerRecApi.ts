@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const API_BASE_URL = "http://127.0.0.1:5000"
-// process.env.REACT_APP_API_BASE_URL || 'https://20230423t201359-dot-msds-603.uc.r.appspot.com';
+// process.env.REACT_APP_API_BASE_URL || 'https://20230426t180918-dot-msds-603.uc.r.appspot.com';
 
 const defaultPlayers = [
     {
@@ -241,3 +241,29 @@ export const getComparisonApi = (player_id1: number, player_id2: number) => {
             return {data: defaultComparisons}
         })
 }
+
+export const getPlayersApiV2 = () => {
+    return axios.get(`${API_BASE_URL}/player-names-v2`)
+        .then(response => {
+            console.log(response)
+            return response
+        })
+        .catch(error => {
+            console.log('Error fetching players', error)
+            return {data: defaultPlayers}
+        })
+}
+
+export const predictValueApi = (player_name: string) => {
+    console.log("Predict API",player_name)
+    const endpoint = `${API_BASE_URL}/predict?player_name=${player_name}`
+    return axios.get(endpoint)
+        .then(response => {
+            console.log(response)
+            return response
+        })
+        .catch(error => {
+            console.log('Error fetching recommendations', error)
+            return {data: 1000000}
+        })
+    }

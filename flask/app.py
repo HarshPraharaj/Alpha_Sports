@@ -3,9 +3,12 @@ import pandas as pd
 import numpy as np # type: ignore
 from flask import Flask, render_template, request, jsonify # type: ignore
 from pymongo import MongoClient # type: ignore
-from flask_cors import CORS, cross_origin
 from sklearn.metrics.pairwise import cosine_similarity
-from pymongo.errors import ConnectionFailure
+from pymongo.errors import ConnectionFailure # type: ignore
+from transfer import transfer_page_plots
+from flask import send_from_directory # type: ignore
+import pickle
+from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
@@ -27,7 +30,7 @@ def get_mongo_connection():
     Based on the environment variable, mongo_atlas_uri or mongo_local_uri,
     Returns a connection to the MongoDB database.
     """
-    mongo_atlas_uri = "mongodb+srv://admin:ddsgrp10@grp10-c1.h89by.mongodb.net/?retryWrites=true&w=majority"
+    # mongo_atlas_uri = "mongodb+srv://admin:ddsgrp10@grp10-c1.h89by.mongodb.net/?retryWrites=true&w=majority"
     mongo_local_uri = "mongodb://localhost:27017"
 
     client = None
@@ -35,7 +38,7 @@ def get_mongo_connection():
 
     # Try connecting to MongoDB Atlas first
     try:
-        client = MongoClient(mongo_atlas_uri)
+        client = MongoClient(mongo_local_uri)
         client.admin.command("ismaster")
         db = client['alpha_sport']
     except ConnectionFailure:
@@ -68,22 +71,26 @@ def get_similar_players(rank, stats_vectors, num_results=RECOMMENDATION_LIMIT):
     """
     Given a player id, returns a list of the most similar players based on their statistical performance.
     """
-    input_vector = stats_vectors.iloc[fw_features.index[fw_features['Rk'] == rank].tolist()[0]].values #type: ignore
-    similarity_scores = cosine_similarity([input_vector], stats_vectors)[0]
-    closest_rows = fw_features.iloc[np.argsort(similarity_scores)[::-1][:num_results+1]]
+    try:
+        input_vector = stats_vectors.iloc[fw_features.index[fw_features['Rk'] == rank].tolist()[0]].values #type: ignore
+        similarity_scores = cosine_similarity([input_vector], stats_vectors)[0]
+        closest_rows = fw_features.iloc[np.argsort(similarity_scores)[::-1][:num_results+1]]
 
-    similar_players = []
-    for _, row in closest_rows.iterrows(): #type: ignore
-        player = {
-            "id": int(row["Rk"]),
-            "name": row["Player"],
-            "position": row["Pos"],
-            "age": int(row["Age"]),
-            "team": row["Squad"],
-            "league": row["Comp"],
-            "similarity": str(round(similarity_scores[row.name]*100, 2)) + "%",
-        }
-        similar_players.append(player)
+        similar_players = []
+        for _, row in closest_rows.iterrows(): #type: ignore
+            player = {
+                "id": int(row["Rk"]),
+                "name": row["Player"],
+                "position": row["Pos"],
+                "age": int(row["Age"]),
+                "team": row["Squad"],
+                "league": row["Comp"],
+                "similarity": str(round(similarity_scores[row.name]*100, 2)) + "%",
+            }
+            similar_players.append(player)
+    except IndexError:
+        return []
+
     return similar_players
 
 
@@ -109,6 +116,7 @@ def process_player_data(raw_data):
 db = get_mongo_connection()
 
 @app.route('/player-names', methods=['GET'])
+@cross_origin(origin='*', headers=['Content-Type']) #type: ignore
 def get_player_names():
     """
     Endpoint to retrieve a list of all player names and their corresponding ranks.
@@ -122,6 +130,7 @@ def get_player_names():
         return jsonify([])
 
 @app.route('/')
+@cross_origin(origin='*', headers=['Content-Type']) #type: ignore
 def index():
     """
     Endpoint to serve the main page of the application.
@@ -144,6 +153,7 @@ def recommend():
         return render_template('error.html')
     
 @app.route('/compare', methods=['GET'])
+@cross_origin(origin='*', headers=['Content-Type']) #type: ignore
 def compare():
     """
     Endpoint to retrieve relevant data for two players given their player IDs.
@@ -167,6 +177,68 @@ def compare():
         logger.exception(f"Error retrieving data for players {player_id1} and {player_id2}: {str(e)}")
         return jsonify({"error": "An error occurred while fetching the data"}), 500
 
+
+# Load model
+with open("../data/football_rec/finalized_model.pkl", "rb") as model_file:
+    model = pickle.load(model_file)
+
+# Load dataframe
+df = pd.read_csv("../data/football_rec/df.csv")
+
+@app.route('/player-names-v2', methods=['GET'])
+@cross_origin(origin='*', headers=['Content-Type']) #type: ignore
+def get_player_names_v2():
+    """
+    Endpoint to retrieve a list of all player names and their corresponding ranks.
+    """
+    try:
+        names = list(df['Player_Name'])
+        return jsonify(names)
+    except Exception as e:
+        logger.exception(f"Error retrieving player names: {str(e)}")
+        return jsonify([])
+
+@app.route('/predict', methods=['GET'])
+@cross_origin(origin='*', headers=['Content-Type']) #type: ignore
+def predict():
+    """
+    Endpoint to predict a value based on the player name and their features.
+    """
+    player_name = request.args.get('player_name', None)
+    print("HIIII",player_name)
+    if not player_name:
+        return jsonify({"error": "Player name is missing"}), 400
+
+    try:
+        player_features = df[df['Player_Name'] == player_name]
+        if player_features.empty:
+            return jsonify({"error": "Invalid player name"}), 400
+
+        if len(player_features) > 1:
+            max_fee_index = player_features['Fee_Money'].idxmax()
+            player_features = player_features.loc[[max_fee_index]]
+
+        player_features = player_features.drop(['Fee_Money', 'Player_Name'], axis=1)
+        prediction = model.predict(player_features.values)[0]
+
+        # Format the prediction as a range string
+        lower_bound = int(np.floor(prediction / 1_000_000)) * 1_000_000
+        upper_bound = int(np.ceil(prediction / 1_000_000)) * 1_000_000
+        prediction_range = f"${lower_bound:,} - ${upper_bound:,}"
+        print("I am here")
+        heatmap_path, shots_path = transfer_page_plots(player_name)
+        resp = {"prediction": prediction_range, "heatmap": heatmap_path, "shots": shots_path}
+        print(resp)
+        return jsonify(resp)
+
+    except Exception as e:
+        logger.exception(f"Error predicting value for player {player_name}: {str(e)}")
+        return jsonify({"error": "An error occurred while making the prediction"}), 500
+
+@app.route('/image/<path:filename>')
+@cross_origin(origin='*', headers=['Content-Type']) #type: ignore
+def serve_image(filename):
+    return send_from_directory("../static/images", filename)
 
 if __name__ == '__main__':
     try:
