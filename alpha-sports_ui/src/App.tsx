@@ -6,6 +6,8 @@ import RadarChart from './components/RadarChart'
 import PlayerRecommendation from './components/PlayerRecommendation'
 import Header from './components/Headers';
 import Footer from './components/Footer';
+import ComingSoon from './components/CoomingSoon'
+import BBallPlayerStats from './components/BBallPlayerStats'
 
 function App() {
   return (
@@ -15,8 +17,11 @@ function App() {
           <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/analytics' element={<Analytics/>}/>
+          <Route path='/services' element={<ComingSoon/>}/>
           <Route path='/RadarChart' element={<RadarChart/>}/>
           <Route path='/recommendations' element={<PlayerRecommendation/>}/>
+          <Route path='/injury' element={<ComingSoon/>}/>
+          <Route path='/salary' element={<BBallPlayerStats/>}/>
           </Routes>
           <Footer />
       </Router>

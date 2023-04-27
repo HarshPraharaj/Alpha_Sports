@@ -203,6 +203,7 @@ const defaultComparisons = [
     }
 ]
 
+
 export const getPlayersApi = () => { 
     return axios.get(`${API_BASE_URL}/player-names`)
         .then(response => {
@@ -239,5 +240,31 @@ export const getComparisonApi = (player_id1: number, player_id2: number) => {
         .catch(error => {
             console.log('Error fetching recommendations', error)
             return {data: defaultComparisons}
+        })
+}
+
+export const getBBallPlayersApi = () => { 
+    return axios.get(`${API_BASE_URL}/bball-players`)
+        .then(response => {
+            console.log(response)
+            return response
+        })
+        .catch(error => {
+            console.log('Error fetching players', error)
+            return {data: defaultPlayers}
+        })
+}
+
+export const getBBallPlayerStatsApi = (player_name: string) => {
+    console.log("Fetch stats",player_name)
+    const endpoint = `${API_BASE_URL}/bball-player-stats?player_name=${player_name}`
+    return axios.get(endpoint)
+        .then(response => {
+            console.log(response)
+            return response
+        })
+        .catch(error => {
+            console.log('Error fetching player stats', error)
+            return {data: {}}
         })
 }
