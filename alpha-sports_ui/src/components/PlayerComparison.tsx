@@ -1,4 +1,4 @@
-import { Modal, Table } from "semantic-ui-react";
+import { Modal, Table, Grid, Segment } from "semantic-ui-react";
 import { Radar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { RadialLinearScale } from "chart.js";
@@ -17,9 +17,9 @@ function PlayerComparison(props: { data: any, open: boolean, handleClose: () => 
       "Press",
       "Pass Completion",
       "Shots on Target",
-      "Pass Completion Final Third",
+      "Pass Completion",
       "Aerial Duels Won",
-      "Ball Carries Final Third",
+      "Ball Carries",
       "Ball Recovery",
     ],
     datasets: [
@@ -76,74 +76,83 @@ function PlayerComparison(props: { data: any, open: boolean, handleClose: () => 
     },
   };
 
-  return (
-    <Modal onClose={props.handleClose} open={props.open}>
-      <Modal.Header>Player Comparison</Modal.Header>
-      <Modal.Content>
-        <div className="container" style={{ backgroundColor: "white" }}>
-          {/* First column */}
-          <div className="column" style={{ color: "black" }}>
-            <h2 style={{ color: "black" }}>Player 1 Details</h2>
-            <p style={{ color: "black" }}>League name: {player1.league}</p>
-            <p style={{ color: "black" }}>Club:{player1.club} </p>
-            <p style={{ color: "black" }}>Player name:{player1.name} </p>
-            <img
-              src={`https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ratings/common/player-small-portraits/${player1.id}.png`}
-              alt="Player 1 portrait"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
-          </div>
+  const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    event.currentTarget.src = 'https://kamarfifa.pl/wp-content/uploads/2020/12/no-face.jpg'
+    // 'https://assets.laliga.com/assets/useful/default-player/2048x2225/male_2_001.png';
+  };
 
-          {/* Second column */}
-          <div className="column" style={{ width: "50%" }}>
-            <div>
-              <Radar data={data} options={options} />
-            </div>
-            <Table celled style={{ marginTop: "1em", color: "black" }}>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell></Table.HeaderCell>
-                  <Table.HeaderCell>Player 1</Table.HeaderCell>
-                  <Table.HeaderCell>Player 2</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell>Stat 1</Table.Cell>
-                  <Table.Cell>Value 1</Table.Cell>
-                  <Table.Cell>Value 2</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Stat 2</Table.Cell>
-                  <Table.Cell>Value 1</Table.Cell>
-                  <Table.Cell>Value 2</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>Stat 3</Table.Cell>
-                  <Table.Cell>Value 1</Table.Cell>
-                  <Table.Cell>Value 2</Table.Cell>
-                </Table.Row>
-                {/* Add more rows for additional stats */}
-              </Table.Body>
-            </Table>
-          </div>
 
-          {/* Third column */}
-          <div className="column" style={{ color: "black" }}>
-            <h2 style={{ color: "black" }}>Player 2 Details</h2>
-            <p style={{ color: "black" }}>League name: {player2.league}</p>
-            <p style={{ color: "black" }}>Club: {player2.club}</p>
-            <p style={{ color: "black" }}>Player name: {player2.name}</p>
-            <img
-              src={`https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ratings/common/player-small-portraits/${player2.id}.png`}
-              alt="Player 2 portrait"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
-          </div>
-        </div>
-      </Modal.Content>
-    </Modal>
-  );
+return (
+  <Modal onClose={props.handleClose} open={props.open}>
+    <Modal.Header>Player Comparison</Modal.Header>
+    <Modal.Content>
+      <Grid columns={16} divided>
+        <Grid.Row>
+          <Grid.Column width={3}>
+          <Segment>
+                <h2>Player 1 Details</h2>
+                <p>League name: {player1.league}</p>
+                <p>Club: {player1.club}</p>
+                <p>Player name: {player1.name}</p>
+                <img
+                  src={`https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ratings/common/player-small-portraits/${player1.id}.png`}
+                  alt="Player 1 portrait"
+                  onError={handleImageError}
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                />
+              </Segment>
+          </Grid.Column>
+          <Grid.Column width={10}>
+          <Segment>
+                <Radar data={data} options={options} />
+                <Table celled style={{ marginTop: "1em" }}>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell></Table.HeaderCell>
+                      <Table.HeaderCell>Player 1</Table.HeaderCell>
+                      <Table.HeaderCell>Player 2</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell>Stat 1</Table.Cell>
+                      <Table.Cell>Value 1</Table.Cell>
+                      <Table.Cell>Value 2</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>Stat 2</Table.Cell>
+                      <Table.Cell>Value 1</Table.Cell>
+                      <Table.Cell>Value 2</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>Stat 3</Table.Cell>
+                      <Table.Cell>Value 1</Table.Cell>
+                      <Table.Cell>Value 2</Table.Cell>
+                    </Table.Row>
+                    {/* Add more rows for additional stats */}
+                  </Table.Body>
+                </Table>
+              </Segment>
+          </Grid.Column>
+          <Grid.Column width={3}>
+          <Segment>
+                <h2>Player 2 Details</h2>
+                <p>League name: {player2.league}</p>
+                <p>Club: {player2.club}</p>
+                <p>Player name: {player2.name}</p>
+                <img
+                  src={`https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ratings/common/player-small-portraits/${player2.id}.png`}
+                  alt="Player 2 portrait"
+                  onError={handleImageError}
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                />
+              </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Modal.Content>
+  </Modal>
+);
 }
 
 export default PlayerComparison;

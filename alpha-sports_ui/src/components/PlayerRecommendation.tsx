@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Button, Container, Dropdown, Grid, Header } from 'semantic-ui-react'
 import { getPlayersApi, getRecommendationsApi } from '../api/PlayerRecApi'
+import './PlayerRecommendation.css';
 import RecommendationsTable from './RecommendationsTable'
 
 
@@ -41,6 +42,7 @@ const PlayerRecommendation = () => {
 
     return (
         <Container style={{ width: '800px' }}>
+        <div className="player-recommendation-content">
             <Header as='h2'
                 content='Player Recommendation'
                 inverted
@@ -86,13 +88,19 @@ const PlayerRecommendation = () => {
                 />
                 </Grid.Column>
                 <Grid.Column width={4}>
-                    <Button disabled={!recButtonEnabled} onClick={getRecommendations} size='small' style = {{height: '3em', width: '13.7em'}}>
-                        Get Recommendations
+                <Button disabled={!recButtonEnabled} onClick={getRecommendations} size='small' style = {{
+                    height: '3em',
+                    width: '13.7em',
+                    backgroundColor: '#000000', // Theme color
+                    color: '#ffffff' // Theme text color
+                    }}>
+                    Get Recommendations
                     </Button>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
             {showTable && recommendations && <RecommendationsTable queryPlayerId={playerFilters.id}   recPlayers={recommendations}/>}
+            </div>
         </Container>
     )
 }

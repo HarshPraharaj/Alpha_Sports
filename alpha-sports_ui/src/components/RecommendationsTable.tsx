@@ -30,13 +30,13 @@ const RecommendationsTable = (props: {queryPlayerId: number, recPlayers: any}) =
             <Table.Cell>{player.team}</Table.Cell>
             <Table.Cell>{player.league}</Table.Cell>
             <Table.Cell>{player.similarity}</Table.Cell>
-            <Table.Cell><Button onClick={() => onCompareClick(player)}>Compare</Button></Table.Cell>
+            <Table.Cell><Button onClick={() => onCompareClick(player)} inverted>Compare</Button></Table.Cell>
         </Table.Row>
     ))
 
     return (
         <div>
-            <Table celled style={{marginTop: '5em'}}>
+            <Table celled inverted style={{marginTop: '5em'}}>
             <Table.Header>
             <Table.Row>
                 <Table.HeaderCell>Name</Table.HeaderCell>
@@ -51,6 +51,12 @@ const RecommendationsTable = (props: {queryPlayerId: number, recPlayers: any}) =
             <Table.Body>
             {tableRows}
             </Table.Body>
+            <Table.Footer>
+                <Table.Row>
+                    <Table.HeaderCell>{props.recPlayers.length} Players</Table.HeaderCell>
+                    <Table.HeaderCell colSpan="6">Recommendations</Table.HeaderCell>
+                </Table.Row>
+            </Table.Footer>
         </Table>
         {showComparison && <PlayerComparison data={data} open={showComparison} handleClose={handleCloseComparison} />}
         </div>
