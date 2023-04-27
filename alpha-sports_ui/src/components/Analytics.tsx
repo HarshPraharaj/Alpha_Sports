@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, Icon, Button, Accordion, Grid } from 'semantic-ui-react';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Card, Icon, Button, Accordion, Grid } from 'semantic-ui-react'
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -37,9 +37,8 @@ const Analytics = () => {
                 </Accordion.Title>
               <Accordion.Content active={activeIndex === 0}>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Integer nec odio. Praesent libero. Sed cursus ante dapibus
-                  diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
+                  Get ahead of the competition by using our state of the art recommendation system. 
+                  By analyzing data on player performance and other factors such as playing style, we can provide recommendations on which players to recruit.
                 </p>
               </Accordion.Content>
             </Accordion>
@@ -61,7 +60,7 @@ const Analytics = () => {
         <Card.Content>
           <Card.Header>Salary Prediction</Card.Header>
           <Card.Description>
-            Predict a player's salary
+            Predict a player's salary (Coming soon)
             <Accordion>
             <Accordion.Title onClick={(e) => handleClick(e, 1)}>
                 <Icon name="dropdown" />
@@ -69,9 +68,7 @@ const Analytics = () => {
                 </Accordion.Title>
               <Accordion.Content active={activeIndex === 1}>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Integer nec odio. Praesent libero. Sed cursus ante dapibus
-                  diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
+                  This feature will be available in the next release.
                 </p>
               </Accordion.Content>
             </Accordion>
@@ -79,6 +76,7 @@ const Analytics = () => {
         </Card.Content>
         <Card.Content extra>
           <Button
+            disabled
             primary
             onClick={loadSalaryPrediction}
             style={{ marginLeft: '400px' }}
@@ -93,7 +91,7 @@ const Analytics = () => {
         <Card.Content>
           <Card.Header>Injury Prediction</Card.Header>
           <Card.Description>
-            Predict a player's potential injury
+            Predict a player's potential injury. (Coming soon)
             <Accordion>
             <Accordion.Title onClick={(e) => handleClick(e, 2)}>
             <Icon name="dropdown" />
@@ -101,9 +99,7 @@ const Analytics = () => {
             </Accordion.Title>
               <Accordion.Content active={activeIndex === 2}>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Integer nec odio. Praesent libero. Sed cursus ante dapibus
-                  diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
+                  This feature will be available in the next release.
                 </p>
               </Accordion.Content>
             </Accordion>
@@ -111,6 +107,7 @@ const Analytics = () => {
         </Card.Content>
         <Card.Content extra>
           <Button
+            disabled
             primary
             onClick={loadInjuryPrediction}
             style={{ marginLeft: '400px' }}

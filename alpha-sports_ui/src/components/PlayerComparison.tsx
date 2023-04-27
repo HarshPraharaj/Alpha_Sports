@@ -1,7 +1,7 @@
-import { Modal, Table, Grid, Segment } from "semantic-ui-react";
-import { Radar } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
-import { RadialLinearScale } from "chart.js";
+import { Modal, Table, Grid, Segment } from "semantic-ui-react"
+import { Radar } from "react-chartjs-2"
+import { Chart, registerables } from "chart.js"
+import { RadialLinearScale } from "chart.js"
 
 Chart.register(RadialLinearScale);
 
@@ -90,10 +90,10 @@ return (
         <Grid.Row>
           <Grid.Column width={3}>
           <Segment>
-                <h2>Player 1 Details</h2>
+                <h2>{player1.name}</h2>
                 <p>League name: {player1.league}</p>
                 <p>Club: {player1.club}</p>
-                <p>Player name: {player1.name}</p>
+                <p>Position: {player1.position}</p>
                 <img
                   src={`https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ratings/common/player-small-portraits/${player1.id}.png`}
                   alt="Player 1 portrait"
@@ -109,25 +109,25 @@ return (
                   <Table.Header>
                     <Table.Row>
                       <Table.HeaderCell></Table.HeaderCell>
-                      <Table.HeaderCell>Player 1</Table.HeaderCell>
-                      <Table.HeaderCell>Player 2</Table.HeaderCell>
+                      <Table.HeaderCell>{player1.name}</Table.HeaderCell>
+                      <Table.HeaderCell>{player2.name}</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
                     <Table.Row>
-                      <Table.Cell>Stat 1</Table.Cell>
-                      <Table.Cell>Value 1</Table.Cell>
-                      <Table.Cell>Value 2</Table.Cell>
+                      <Table.Cell>Pass Completion</Table.Cell>
+                      <Table.Cell>{player1.pass_completion}%</Table.Cell>
+                      <Table.Cell>{player2.pass_completion}%</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell>Stat 2</Table.Cell>
-                      <Table.Cell>Value 1</Table.Cell>
-                      <Table.Cell>Value 2</Table.Cell>
+                      <Table.Cell>Shots on target</Table.Cell>
+                      <Table.Cell>{player1.shots_on_target}</Table.Cell>
+                      <Table.Cell>{player2.shots_on_target}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell>Stat 3</Table.Cell>
-                      <Table.Cell>Value 1</Table.Cell>
-                      <Table.Cell>Value 2</Table.Cell>
+                      <Table.Cell>Ball Recovery</Table.Cell>
+                      <Table.Cell>{player1.ball_recovery}</Table.Cell>
+                      <Table.Cell>{player2.ball_recovery}</Table.Cell>
                     </Table.Row>
                     {/* Add more rows for additional stats */}
                   </Table.Body>
@@ -136,10 +136,10 @@ return (
           </Grid.Column>
           <Grid.Column width={3}>
           <Segment>
-                <h2>Player 2 Details</h2>
+                <h2>{player2.name}</h2>
                 <p>League name: {player2.league}</p>
                 <p>Club: {player2.club}</p>
-                <p>Player name: {player2.name}</p>
+                <p>Position: {player1.position}</p>
                 <img
                   src={`https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ratings/common/player-small-portraits/${player2.id}.png`}
                   alt="Player 2 portrait"

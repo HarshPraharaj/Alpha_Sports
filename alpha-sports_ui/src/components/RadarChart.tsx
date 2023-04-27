@@ -1,7 +1,6 @@
-import React from 'react';
-import { Radar } from 'react-chartjs-2';
-import { Chart, registerables } from 'chart.js';
-import { RadialLinearScale } from 'chart.js';
+import { Radar } from 'react-chartjs-2'
+import { Chart, registerables } from 'chart.js'
+import { RadialLinearScale } from 'chart.js'
 
 Chart.register(RadialLinearScale);
 
