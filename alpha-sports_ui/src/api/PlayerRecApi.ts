@@ -1,7 +1,9 @@
 import axios from 'axios'
 
-const API_BASE_URL = "http://127.0.0.1:5000"
-// process.env.REACT_APP_API_BASE_URL || 'https://20230423t201359-dot-msds-603.uc.r.appspot.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://20230426t173715-dot-msds-603.uc.r.appspot.com';
+// "http://127.0.0.1:5000"
+
+const requestTimeout = 5000;
 
 const defaultPlayers = [
     {
@@ -203,41 +205,41 @@ const defaultComparisons = [
     }
 ]
 
-export const getPlayersApi = () => { 
-    return axios.get(`${API_BASE_URL}/player-names`)
-        .then(response => {
-            console.log(response)
-            return response
-        })
-        .catch(error => {
-            console.log('Error fetching players', error)
-            return {data: defaultPlayers}
-        })
-}
+export const getPlayersApi = () => {
+    return axios.get(`${API_BASE_URL}/player-names`, { timeout: requestTimeout })
+      .then(response => {
+        console.log(response);
+        return response;
+      })
+      .catch(error => {
+        console.log('Error fetching players', error);
+        return { data: defaultPlayers };
+      });
+  };
 
-export const getRecommendationsApi = (filters: {id: number, team: string, league: string}) => {
-    const endpoint = `${API_BASE_URL}/recommend?player_id=${filters.id}`
-    return axios.get(endpoint)
-        .then(response => {
-            console.log(response)
-            return response
-        })
-        .catch(error => {
-            console.log('Error fetching recommendations', error)
-            return {data: defaultRecommendations}
-        })
-}
+  export const getRecommendationsApi = (filters: { id: number, team: string, league: string }) => {
+    const endpoint = `${API_BASE_URL}/recommend?player_id=${filters.id}`;
+    return axios.get(endpoint, { timeout: requestTimeout })
+      .then(response => {
+        console.log(response);
+        return response;
+      })
+      .catch(error => {
+        console.log('Error fetching recommendations', error);
+        return { data: defaultRecommendations };
+      });
+  };
 
-export const getComparisonApi = (player_id1: number, player_id2: number) => {
-    console.log("Compari API",player_id1, player_id2)
-    const endpoint = `${API_BASE_URL}/compare?player_id1=${player_id1}&player_id2=${player_id2}`
-    return axios.get(endpoint)
-        .then(response => {
-            console.log(response)
-            return response
-        })
-        .catch(error => {
-            console.log('Error fetching recommendations', error)
-            return {data: defaultComparisons}
-        })
-}
+  export const getComparisonApi = (player_id1: number, player_id2: number) => {
+    console.log("Compari API", player_id1, player_id2);
+    const endpoint = `${API_BASE_URL}/compare?player_id1=${player_id1}&player_id2=${player_id2}`;
+    return axios.get(endpoint, { timeout: requestTimeout })
+      .then(response => {
+        console.log(response);
+        return response;
+      })
+      .catch(error => {
+        console.log('Error fetching recommendations', error);
+        return { data: defaultComparisons };
+      });
+  };
