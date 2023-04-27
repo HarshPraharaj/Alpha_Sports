@@ -27,7 +27,7 @@ def get_mongo_connection():
     Based on the environment variable, mongo_atlas_uri or mongo_local_uri,
     Returns a connection to the MongoDB database.
     """
-    # mongo_atlas_uri = "mongodb+srv://admin:ddsgrp10@grp10-c1.h89by.mongodb.net/?retryWrites=true&w=majority"
+    mongo_atlas_uri = "mongodb+srv://admin:ddsgrp10@grp10-c1.h89by.mongodb.net/?retryWrites=true&w=majority"
     mongo_local_uri = "mongodb://localhost:27017"
 
     client = None
@@ -35,7 +35,7 @@ def get_mongo_connection():
 
     # Try connecting to MongoDB Atlas first
     try:
-        client = MongoClient(mongo_local_uri)
+        client = MongoClient(mongo_atlas_uri)
         client.admin.command("ismaster")
         db = client['alpha_sport']
     except ConnectionFailure:
