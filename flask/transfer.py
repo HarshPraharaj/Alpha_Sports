@@ -4,9 +4,9 @@ import pandas as pd
 plot_df = pd.read_csv('../data/football_rec/shoots.csv')
 
 def transfer_page_plots(player_name):
-    
-    heatmap_path = f"../alpha-sports_ui/public/images/heatmap_{player_name}.png"
-    shot_on_post_path = f"../alpha-sports_ui/public/images/shot_on_post_{player_name}.png"
+    temp = player_name.replace(" ","_").lower()
+    heatmap_path = f"../alpha-sports_ui/src/images/heatmap_{temp}.png"
+    shot_on_post_path = f"../alpha-sports_ui/src/images/shot_on_post_{temp}.png"
     last_name = player_name.split(" ")[-1]
     fig_1 = return_player_df(last_name,plot_df)
     player_id = return_player_id(last_name,plot_df)

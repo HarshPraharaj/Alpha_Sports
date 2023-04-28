@@ -15,8 +15,8 @@ const Transfer = () => {
     const response: any = await predictValueApi(selectedPlayer);
     console.log(response.data.heatmap)
     setPrediction(response.data.prediction);
-    setHeatmapUrl("../../public/images/"+response.data.heatmap.split('/')[4]);
-    setShotsUrl("../../public/images/"+response.data.shots.split('/')[4]);
+    setHeatmapUrl("images/"+response.data.heatmap.split('/')[4]);
+    setShotsUrl("images/"+response.data.shots.split('/')[4]);
   };
 
   const enableButton = (event: any, data: any) => {
