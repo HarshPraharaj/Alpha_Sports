@@ -246,7 +246,7 @@ const defaultPlayerStats = {
     effected_field_goal:0.5,
     points:150,
     blocks:5,
-    player_img_link:'',
+    player_img_link:'https://kamarfifa.pl/wp-content/uploads/2020/12/no-face.jpg',
     predicted_salary:10000000
 }
 
