@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Card, Container, Grid, Segment } from "semantic-ui-react";
+import { Card, Container, Grid, Segment, Table } from "semantic-ui-react";
 import { Radar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { RadialLinearScale } from "chart.js";
@@ -17,12 +17,12 @@ Object.keys(registerables).forEach((name: any) => {
   
     const data = {
       labels: [
-        "three_pointers",
-        "two_pointers",
-        "blocks",
-        "effected_field_goal",
-        "field_goals",
-        "points"
+        "Three Pointers",
+        "Two Pointers",
+        "Blocks",
+        "Effected Field Goal",
+        "Field Goals",
+        "Points"
       ],
       datasets: [
         {
@@ -67,11 +67,15 @@ Object.keys(registerables).forEach((name: any) => {
   )
 
   const cardDescription = (
-    <p>Predicted salary is ${player.predicted_salary}</p>
+    <p>Predicted salary is ${player.predicted_salary.toLocaleString('en-US')}</p>
   )
   
   const cardMeta = (
     <p>{player.games_played} games played</p>
+  )
+
+  const effectedGoals = (
+    player.effected_field_goal*100
   )
   
   return (
@@ -87,13 +91,41 @@ Object.keys(registerables).forEach((name: any) => {
       </Grid.Column>
       <Grid.Column width={3}>
         <Segment>
-            <h2>Player Stats</h2>
-            <p>Points: {player.points}</p>
-            <p>Three Pointers: {player.three_pointers}</p>
-            <p>Two Pointers: {player.two_pointers}</p>
-            <p>Blocks: {player.blocks}</p>
-            <p>Field Goals: {player.field_goals}</p>
-            <p>Effected Feild Goal: {player.effected_field_goal*100} %</p>
+          <Card style={{width:'100%',backgroundColor:'black'}}>
+            <Card.Content>
+              <Card.Header style={{color:'white',backgroundColor:'black'}}>
+                Player Stats
+              </Card.Header>
+            </Card.Content>
+          </Card>
+        <Table celled inverted style={{backgroundColor:'black'}}>
+            <Table.Body>
+            <Table.Row>
+              <Table.Cell>Points</Table.Cell>
+              <Table.Cell>{player.points}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Three Pointers</Table.Cell>
+              <Table.Cell>{player.three_pointers}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Two Pointers</Table.Cell>
+              <Table.Cell>{player.two_pointers}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Blocks</Table.Cell>
+              <Table.Cell>{player.blocks}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Field Goals</Table.Cell>
+              <Table.Cell>{player.field_goals}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Effected Feild Goal</Table.Cell>
+              <Table.Cell>{effectedGoals.toPrecision(4)}%</Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
         </Segment>
       </Grid.Column>
       <Grid.Column width={5}>

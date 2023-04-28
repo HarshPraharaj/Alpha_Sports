@@ -23,7 +23,7 @@ const Home = () => (
                     <Cards title='Analytics' image='analyticsIcon' route='/analytics' disabled={false} text={analyticsText}/>
                 </Grid.Column>
                 <Grid.Column>
-                    <Cards title='Fantasy League' image='serviceIcon' route='/services' disabled={true} text={fantasyText}/>
+                    <Cards title='Fantasy League' image='serviceIcon' route='/services' disabled={false} text={fantasyText}/>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
