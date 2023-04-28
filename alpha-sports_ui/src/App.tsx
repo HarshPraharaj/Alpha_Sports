@@ -8,6 +8,7 @@ import Header from './components/Headers';
 import Footer from './components/Footer';
 import ComingSoon from './components/CoomingSoon'
 import BBallPlayerStats from './components/BBallPlayerStats'
+import Carousel from './components/Carousel'
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
       <Router>
       <Header />
           <Routes>
-          <Route path='/' element={<Home/>}/>
+          {/* <Route path='/' element={<Home/>}/> */}
+          <Route path='/' element={<Carousel/>}/>
           <Route path='/analytics' element={<Analytics/>}/>
           <Route path='/services' element={<ComingSoon/>}/>
           <Route path='/RadarChart' element={<RadarChart/>}/>

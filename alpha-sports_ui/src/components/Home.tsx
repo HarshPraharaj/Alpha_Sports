@@ -4,6 +4,14 @@ import Cards from './Cards'
 const fantasyText = "Looking for an edge in your fantasy league? Look no further than our fantasy player recommender!"
 const analyticsText = "Try out our analytics feature and gain a winning advantage with our state-of-the art AI techniques!"
 
+// const Home = () => (
+//     <AwesomeSlider cssModule={AwesomeSliderStyles}>
+//         <div data-src="/path/to/image-0.png" />
+//         <div data-src="/path/to/image-1.png" />
+//         <div data-src="/path/to/image-2.jpg" />
+//     </AwesomeSlider>
+// )
+
 const Home = () => (
     <Container text>
         <Header as='h1'
