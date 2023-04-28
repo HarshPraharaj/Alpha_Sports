@@ -241,12 +241,18 @@ const defaultPlayerStats = {
     age:25,
     games_played:50,
     field_goals:50,
-    three_pointers:10,
-    two_pointers:10,
+    three_pointers:30,
+    two_pointers:30,
     effected_field_goal:0.5,
-    points:150,
-    blocks:5,
-    player_img_link:'',
+    points:90,
+    blocks:30,
+    norm_field_goals:50,
+    norm_three_pointers:30,
+    norm_two_pointers:30,
+    norm_effect_goal:50,
+    norm_points:90,
+    norm_blocks:30,
+    player_img_link:'https://kamarfifa.pl/wp-content/uploads/2020/12/no-face.jpg',
     predicted_salary:10000000
 }
 
