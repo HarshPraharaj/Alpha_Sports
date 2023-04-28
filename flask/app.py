@@ -166,6 +166,44 @@ def compare():
     except Exception as e:
         logger.exception(f"Error retrieving data for players {player_id1} and {player_id2}: {str(e)}")
         return jsonify({"error": "An error occurred while fetching the data"}), 500
+    
+@app.route('/bball-players', methods=['GET'])
+def get_bball_players():
+    """
+    Endpoint to retrieve a list of all player names and their corresponding ranks.
+    """
+    try:
+        bball_players = list(db.nba_players.find({}, {"player_name": 1, "_id": 1}))
+        res_bball = [{"key": player["player_name"], "text": player["player_name"], "value": player["player_name"]} for player in bball_players]
+        return jsonify(res_bball)
+    except Exception as e:
+        logger.exception(f"Error retrieving player names: {str(e)}")
+        return jsonify([])
+    
+@app.route('/bball-player-stats', methods=['GET'])
+def get_bball_player_stats():
+    """
+    Endpoint to retrieve basket ball player stats.
+    """
+    player_name = request.args.get('player_name', "")
+    pipline = [
+        {"$match":
+         {"player_name":player_name}},
+        {"$project":
+         {"_id":0,"name":"$player_name","games_played":1,"field_goals":1,"three_pointers":"$3pointers",
+          "two_pointers":"$2pointers","effected_field_goal":"$effected_field_goal%","points":1,
+          "blocks":1,"age":"$Age","player_img_link":1,
+          "predicted_salary":{"$toInt":"$predicted_salary"}}
+          }
+          ]
+
+    try:
+        bball_player_stats = list(db.nba_players.aggregate(pipline))
+        
+        return bball_player_stats[0]
+    except Exception as e:
+        logger.exception(f"Error retrieving player stats: {str(e)}")
+        return jsonify([])
 
 
 if __name__ == '__main__':

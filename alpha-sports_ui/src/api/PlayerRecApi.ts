@@ -203,6 +203,54 @@ const defaultComparisons = [
     }
 ]
 
+const defaultBBallPlayers = [
+    {
+        key: 'Giannis Antetokounmpo',
+        text: 'Giannis Antetokounmpo',
+        value: 'Giannis Antetokounmpo',
+    },
+    {
+        key: 'Kevin Durant',
+        text: 'Kevin Durant',
+        value: 'Kevin Durant',
+    },
+    {
+        key: 'Stephen Curry',
+        text: 'Stephen Curry',
+        value: 'Stephen Curry',
+    },
+    {
+        key: 'Nikola Jokic',
+        text: 'Nikola Jokic',
+        value: 'Nikola Jokic',
+    },
+    {
+        key: 'Joel Embiid',
+        text: 'Joel Embiid',
+        value: 'Joel Embiid',
+    },
+    {
+        key: 'LeBron James',
+        text: 'LeBron James',
+        value: 'LeBron James',
+    },
+]
+
+const defaultPlayerStats = {
+    name:'',
+    age:25,
+    games_played:50,
+    field_goals:50,
+    three_pointers:10,
+    two_pointers:10,
+    effected_field_goal:0.5,
+    points:150,
+    blocks:5,
+    player_img_link:'',
+    predicted_salary:10000000
+}
+
+
 export const getPlayersApi = () => { 
     return axios.get(`${API_BASE_URL}/player-names`, {timeout: 2000})
         .then(response => {
@@ -239,5 +287,31 @@ export const getComparisonApi = (player_id1: number, player_id2: number) => {
         .catch(error => {
             console.log('Error fetching recommendations', error)
             return {data: defaultComparisons}
+        })
+}
+
+export const getBBallPlayersApi = () => { 
+    return axios.get(`${API_BASE_URL}/bball-players`)
+        .then(response => {
+            console.log(response)
+            return response
+        })
+        .catch(error => {
+            console.log('Error fetching players', error)
+            return {data: defaultBBallPlayers}
+        })
+}
+
+export const getBBallPlayerStatsApi = (player_name: string) => {
+    console.log("Fetch stats",player_name)
+    const endpoint = `${API_BASE_URL}/bball-player-stats?player_name=${player_name}`
+    return axios.get(endpoint)
+        .then(response => {
+            console.log(response)
+            return response
+        })
+        .catch(error => {
+            console.log('Error fetching player stats', error)
+            return {data: defaultPlayerStats}
         })
 }

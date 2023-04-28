@@ -23,101 +23,108 @@ const Analytics = () => {
 
 
   return (
-    <Grid style={{ marginTop: '100px' }}>
+    <Grid columns={3} divided="vertically" style={{marginTop:'10%',marginLeft:'1%',marginRight:'1%',marginBottom:'7%'}}>
+        <Grid.Row style={{marginTop:'5%'}}>
         <Grid.Column>
-      <Card style={{ width: '40%', marginLeft: '100px' }}>
-        <Card.Content>
-          <Card.Header>Player Recommendations</Card.Header>
-          <Card.Description>
-            Checkout similar players
-            <Accordion>
-            <Accordion.Title onClick={(e) => handleClick(e, 0)}>
-                <Icon name="dropdown" />
-                See more
-                </Accordion.Title>
-              <Accordion.Content active={activeIndex === 0}>
-                <p>
-                  Get ahead of the competition by using our state of the art recommendation system. 
-                  By analyzing data on player performance and other factors such as playing style, we can provide recommendations on which players to recruit.
-                </p>
-              </Accordion.Content>
-            </Accordion>
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          <Button
-            primary
-            onClick={loadRecommendations}
-            style={{ marginLeft: '400px' }}
-          >
-            Try it out
-            <Icon name="arrow right" />
-          </Button>
-        </Card.Content>
-      </Card>
+            <Card style={{width: '90%',justify:'center',align:'center'}}>
+                <Card.Content>
+                <Card.Header>Player Recommendations</Card.Header>
+                <Card.Description>
+                    Checkout similar players
+                    <Accordion>
+                    <Accordion.Title onClick={(e) => handleClick(e, 0)}>
+                        <Icon name="dropdown" />
+                        See more
+                        </Accordion.Title>
+                    <Accordion.Content active={activeIndex === 0}>
+                        <p>
+                        Get ahead of the competition by using our state of the art recommendation system. 
+                        By analyzing data on player performance and other factors such as playing style, we can provide recommendations on which players to recruit.
+                        </p>
+                    </Accordion.Content>
+                    </Accordion>
+                </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                <Button
+                    primary
+                    onClick={loadRecommendations}
+                    style={{justify:'center',align:'center'}}
+                >
+                    Try it out
+                    <Icon name="arrow right" />
+                </Button>
+                </Card.Content>
+            </Card>
+        </Grid.Column>
 
-      <Card style={{ width: '40%', marginLeft: '100px' }}>
-        <Card.Content>
-          <Card.Header>Salary Prediction</Card.Header>
-          <Card.Description>
-            Predict a player's salary (Coming soon)
-            <Accordion>
-            <Accordion.Title onClick={(e) => handleClick(e, 1)}>
-                <Icon name="dropdown" />
-                See more
-                </Accordion.Title>
-              <Accordion.Content active={activeIndex === 1}>
-                <p>
-                  This feature will be available in the next release.
-                </p>
-              </Accordion.Content>
-            </Accordion>
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          <Button
-            disabled
-            primary
-            onClick={loadSalaryPrediction}
-            style={{ marginLeft: '400px' }}
-          >
-            Try it out
-            <Icon name="arrow right" />
-          </Button>
-        </Card.Content>
-      </Card>
-
-      <Card style={{ width: '40%', marginLeft: '100px' }}>
-        <Card.Content>
-          <Card.Header>Injury Prediction</Card.Header>
-          <Card.Description>
-            Predict a player's potential injury. (Coming soon)
-            <Accordion>
-            <Accordion.Title onClick={(e) => handleClick(e, 2)}>
-            <Icon name="dropdown" />
-            See more
-            </Accordion.Title>
-              <Accordion.Content active={activeIndex === 2}>
-                <p>
-                  This feature will be available in the next release.
-                </p>
-              </Accordion.Content>
-            </Accordion>
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          <Button
-            disabled
-            primary
-            onClick={loadInjuryPrediction}
-            style={{ marginLeft: '400px' }}
-          >
-            Try it out
-            <Icon name="arrow right" />
-          </Button>
-        </Card.Content>
-      </Card>
-      </Grid.Column>
+        <Grid.Column>
+            <Card style={{width: '90%',justify:'center',align:'center'}}>
+                <Card.Content>
+                <Card.Header>Salary Prediction</Card.Header>
+                <Card.Description>
+                    Predict a player's salary
+                    <Accordion>
+                    <Accordion.Title onClick={(e) => handleClick(e, 1)}>
+                        <Icon name="dropdown" />
+                        See more
+                        </Accordion.Title>
+                    <Accordion.Content active={activeIndex === 1}>
+                        <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Integer nec odio. Praesent libero. Sed cursus ante dapibus
+                        diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
+                        </p>
+                    </Accordion.Content>
+                    </Accordion>
+                </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                <Button
+                    primary
+                    onClick={loadSalaryPrediction}
+                    style={{justify:'center',align:'center'}}
+                >
+                    Try it out
+                    <Icon name="arrow right" />
+                </Button>
+                </Card.Content>
+            </Card>
+        </Grid.Column>
+        <Grid.Column>
+            <Card style={{width: '90%',justify:'center',align:'center'}}>
+                <Card.Content>
+                <Card.Header>Injury Prediction</Card.Header>
+                <Card.Description>
+                    Predict a player's potential injury
+                    <Accordion>
+                    <Accordion.Title onClick={(e) => handleClick(e, 2)}>
+                    <Icon name="dropdown" />
+                    See more
+                    </Accordion.Title>
+                    <Accordion.Content active={activeIndex === 2}>
+                        <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Integer nec odio. Praesent libero. Sed cursus ante dapibus
+                        diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
+                        </p>
+                    </Accordion.Content>
+                    </Accordion>
+                </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                <Button
+                    primary
+                    onClick={loadInjuryPrediction}
+                    style={{justify:'center',align:'center'}}
+                >
+                    Try it out
+                    <Icon name="arrow right" />
+                </Button>
+                </Card.Content>
+            </Card>
+        </Grid.Column>
+      </Grid.Row>
     </Grid>
   );
 };

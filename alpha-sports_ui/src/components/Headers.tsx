@@ -39,7 +39,7 @@ const HeaderComponent: React.FC = () => {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleItemClick('/fantasy-league')}>
+            <Dropdown.Item onClick={() => handleItemClick('/services')}>
               Fantasy League
             </Dropdown.Item>
           </Dropdown.Menu>
