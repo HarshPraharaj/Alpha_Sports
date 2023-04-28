@@ -14,7 +14,7 @@ const RecommendationsTable = (props: {queryPlayerId: number, recPlayers: any}) =
         console.log('Clicked on: ', player)
         console.log('To compare with', props.queryPlayerId)
         // API Call to get comparison data
-        const response: any = await getComparisonApi(player.id, props.queryPlayerId)
+        const response: any = await getComparisonApi(props.queryPlayerId, player.id)
         setData(response.data)
         setShowComparison(true)
     }
