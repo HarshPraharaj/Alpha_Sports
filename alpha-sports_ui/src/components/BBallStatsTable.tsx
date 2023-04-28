@@ -20,7 +20,7 @@ Object.keys(registerables).forEach((name: any) => {
         "Three Pointers",
         "Two Pointers",
         "Blocks",
-        "Effected Field Goal",
+        "Effective Field Goal",
         "Field Goals",
         "Points"
       ],
@@ -121,7 +121,7 @@ Object.keys(registerables).forEach((name: any) => {
               <Table.Cell>{player.field_goals}</Table.Cell>
             </Table.Row>
             <Table.Row>
-              <Table.Cell>Effected Field Goal</Table.Cell>
+              <Table.Cell>Effective Field Goal</Table.Cell>
               <Table.Cell>{effectedGoals.toPrecision(4)}%</Table.Cell>
             </Table.Row>
           </Table.Body>
