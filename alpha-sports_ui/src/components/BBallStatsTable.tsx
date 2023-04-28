@@ -28,12 +28,12 @@ Object.keys(registerables).forEach((name: any) => {
         {
             label:player.name,
             data: [
-            player.three_pointers,
-            player.two_pointers,
-            player.blocks,
-            player.effected_field_goal,
-            player.field_goals,
-            player.points
+            player.norm_three_pointers,
+            player.norm_two_pointers,
+            player.norm_blocks,
+            player.norm_effect_goal,
+            player.norm_field_goals,
+            player.norm_points
           ],
           fill: true,
           backgroundColor: "rgba(255, 99, 132, 0.2)",
@@ -58,10 +58,10 @@ Object.keys(registerables).forEach((name: any) => {
       },
     };
   
-    const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-      event.currentTarget.src = 'https://kamarfifa.pl/wp-content/uploads/2020/12/no-face.jpg'
-      // 'https://assets.laliga.com/assets/useful/default-player/2048x2225/male_2_001.png';
-    };
+    // const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    //   event.currentTarget.src = 'https://kamarfifa.pl/wp-content/uploads/2020/12/no-face.jpg'
+    //   // 'https://assets.laliga.com/assets/useful/default-player/2048x2225/male_2_001.png';
+    // };
   const cardHeader = (
     <p>{player.name}, {player.age}</p>
   )
@@ -121,7 +121,7 @@ Object.keys(registerables).forEach((name: any) => {
               <Table.Cell>{player.field_goals}</Table.Cell>
             </Table.Row>
             <Table.Row>
-              <Table.Cell>Effected Feild Goal</Table.Cell>
+              <Table.Cell>Effected Field Goal</Table.Cell>
               <Table.Cell>{effectedGoals.toPrecision(4)}%</Table.Cell>
             </Table.Row>
           </Table.Body>
