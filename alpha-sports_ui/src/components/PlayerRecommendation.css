@@ -24,7 +24,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    margin-top: 10em;
+    margin-top: 8%;
   }
 
   .service-description {
