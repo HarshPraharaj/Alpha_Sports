@@ -7,6 +7,7 @@ from flask_cors import CORS, cross_origin
 from sklearn.metrics.pairwise import cosine_similarity
 from pymongo.errors import ConnectionFailure
 from fantasy_run import *
+import math
 
 
 app = Flask(__name__)
@@ -35,13 +36,13 @@ def get_mongo_connection():
     db = None
 
     # Try connecting to MongoDB Atlas first
-    try:
-        client = MongoClient(mongo_atlas_uri)
-        client.admin.command("ismaster")
-        db = client['alpha_sport']
-    except ConnectionFailure:
-        client = None
-        db = None
+    # try:
+    #     client = MongoClient(mongo_atlas_uri)
+    #     client.admin.command("ismaster")
+    #     db = client['alpha_sport']
+    # except ConnectionFailure:
+    #     client = None
+    #     db = None
 
     # Fallback to local MongoDB if Atlas connection failed
     if client is None or db is None:
@@ -212,21 +213,40 @@ def get_bball_player_stats():
 def get_currentweek_fixtures():
     """Endpoint to fetch current week's fixture"""
     try:
-        current_fixtures = get_fixtures()
+        current_fixtures,previous_fixtures = get_fixtures()
+        return_dict = dict()
         cw_fixtures = []
+        pw_fixtures = []
         for _,row in current_fixtures.iterrows():
             fixture = {
                 'team_h_name':row['team_h_name'],
                 'team_a_name':row['team_a_name'],
                 'team_h_code':row['team_h_code'],
-                'team_a_code':row['team_a_code']
-                
+                'team_a_code':row['team_a_code'],
+                'team_h_score': None if math.isnan(row['team_h_score']) else row['team_h_score'],
+                'team_a_score': None if math.isnan(row['team_a_score']) else row['team_a_score'],             
+
             }
             cw_fixtures.append(fixture)
-        return jsonify(cw_fixtures)
+        
+        for _,row in previous_fixtures.iterrows():
+            fixture = {
+                'team_h_name':row['team_h_name'],
+                'team_a_name':row['team_a_name'],
+                'team_h_code':row['team_h_code'],
+                'team_a_code':row['team_a_code'],
+                'team_h_score': None if math.isnan(row['team_h_score']) else row['team_h_score'],
+                'team_a_score': None if math.isnan(row['team_a_score']) else row['team_a_score'],             
+
+            }
+            pw_fixtures.append(fixture)
+        
+        return_dict['current'] = cw_fixtures
+        return_dict['previous'] = pw_fixtures
+        return return_dict
     except Exception as e:
         logger.exception()
-        return jsonify([])
+        return jsonify({})
 
 
 

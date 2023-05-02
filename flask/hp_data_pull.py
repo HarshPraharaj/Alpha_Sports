@@ -19,8 +19,11 @@ def get_fixtures_as_df(url):
 
 def get_current_gw_fixtures(fixtures_data, teams_df):
     current_gw = 35
+    previous_gw = 34
     current_gw_fixtures = fixtures_data[fixtures_data['gw']==current_gw].copy()
     current_gw_fixtures = current_gw_fixtures.merge(teams_df[['id','name','code']], left_on='team_a', right_on='id', how='left')
+    previous_gw_fixtures = fixtures_data[fixtures_data['gw']==previous_gw].copy()
+    previous_gw_fixtures = previous_gw_fixtures.merge(teams_df[['id','name','code']], left_on='team_a', right_on='id', how='left')
 
     team_id_mapping = teams_df[['id','name']].set_index('id').to_dict()['name']
     team_code_mapping = teams_df[['id','code']].set_index('id').to_dict()['code']
@@ -31,4 +34,9 @@ def get_current_gw_fixtures(fixtures_data, teams_df):
     current_gw_fixtures['team_a_code'] = current_gw_fixtures['team_a'].map(team_code_mapping)
     current_gw_fixtures['team_h_code'] = current_gw_fixtures['team_h'].map(team_code_mapping)
 
-    return current_gw_fixtures
+    previous_gw_fixtures['team_a_name'] = previous_gw_fixtures['team_a'].map(team_id_mapping)
+    previous_gw_fixtures['team_h_name'] = previous_gw_fixtures['team_h'].map(team_id_mapping)
+    previous_gw_fixtures['team_a_code'] = previous_gw_fixtures['team_a'].map(team_code_mapping)
+    previous_gw_fixtures['team_h_code'] = previous_gw_fixtures['team_h'].map(team_code_mapping)
+
+    return current_gw_fixtures,previous_gw_fixtures
