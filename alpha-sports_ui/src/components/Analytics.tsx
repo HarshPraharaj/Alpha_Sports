@@ -71,9 +71,9 @@ const Analytics = () => {
                         </Accordion.Title>
                     <Accordion.Content active={activeIndex === 1}>
                         <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Integer nec odio. Praesent libero. Sed cursus ante dapibus
-                        diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
+                        Are you afraid of getting underpaid? Don't know how to negotiate your salary?
+                        By analyzing player performance, 
+                        we can give accurate estimates of salary so that you get what you deserve.
                         </p>
                     </Accordion.Content>
                     </Accordion>
@@ -104,9 +104,9 @@ const Analytics = () => {
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === 2}>
                         <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Integer nec odio. Praesent libero. Sed cursus ante dapibus
-                        diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
+                        Protect your team's future by saving your players from getting injured and keeping them at top of their game. 
+                        With advanced algorithms , 
+                        our model accurately predicts injury risk factors for individual players and the team as a whole.
                         </p>
                     </Accordion.Content>
                     </Accordion>
