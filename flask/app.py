@@ -36,13 +36,13 @@ def get_mongo_connection():
     db = None
 
     # Try connecting to MongoDB Atlas first
-    # try:
-    #     client = MongoClient(mongo_atlas_uri)
-    #     client.admin.command("ismaster")
-    #     db = client['alpha_sport']
-    # except ConnectionFailure:
-    #     client = None
-    #     db = None
+    try:
+        client = MongoClient(mongo_atlas_uri)
+        client.admin.command("ismaster")
+        db = client['alpha_sport']
+    except ConnectionFailure:
+        client = None
+        db = None
 
     # Fallback to local MongoDB if Atlas connection failed
     if client is None or db is None:
