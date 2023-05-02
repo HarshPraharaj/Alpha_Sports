@@ -243,10 +243,11 @@ def get_currentweek_fixtures():
         
         return_dict['current'] = cw_fixtures
         return_dict['previous'] = pw_fixtures
+        print(return_dict)
         return return_dict
     except Exception as e:
-        logger.exception()
-        return jsonify({})
+        logger.exception("", e)
+        return jsonify({'current': [], 'previous': []})
 
 
 

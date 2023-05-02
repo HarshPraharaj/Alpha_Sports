@@ -330,6 +330,6 @@ export const getCWFixturesAPI = () => {
         })
         .catch(error => {
             console.log('Error fetching fixtures', error)
-            return {data: {}}
+            return {data: {'current': [], 'previous': []}}
         })
 }
