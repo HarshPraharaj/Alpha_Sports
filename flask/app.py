@@ -90,7 +90,6 @@ def get_similar_players(rank, stats_vectors, num_results=RECOMMENDATION_LIMIT):
 
 
 def process_player_data(raw_data):
-    print(raw_data)
     return {
         "id": raw_data["ID"],
         "name": raw_data["Player"],
@@ -243,12 +242,31 @@ def get_currentweek_fixtures():
         
         return_dict['current'] = cw_fixtures
         return_dict['previous'] = pw_fixtures
-        print(return_dict)
         return return_dict
     except Exception as e:
         logger.exception("", e)
         return jsonify({'current': [], 'previous': []})
 
+# Load the CSV file
+_, _, teams_df = get_data_as_df('https://fantasy.premierleague.com/api/bootstrap-static/')
+fantasy_players_df = pd.read_csv("../data/football_rec/Forecasts.csv")
+merged_df = pd.merge(fantasy_players_df, teams_df[["code","short_name"]], left_on='Team', right_on='short_name', how='left')
+
+@app.route('/fantasy-players', methods=['GET'])
+def get_fantasy_players():
+    """
+    Endpoint to retrieve fantasy players data.
+    """
+    try:
+        # Replace NaN values with None
+        merged_df.fillna(value=0, inplace=True)
+        merged_df.sort_values(by=['total_points'], ascending=False, inplace=True)
+        # Convert the DataFrame to a list of dictionaries
+        fantasy_players = merged_df.to_dict(orient="records")
+        return jsonify(fantasy_players)
+    except Exception as e:
+        logger.exception(f"Error fetching fantasy players data: {str(e)}")
+        return jsonify([])
 
 
 if __name__ == '__main__':
