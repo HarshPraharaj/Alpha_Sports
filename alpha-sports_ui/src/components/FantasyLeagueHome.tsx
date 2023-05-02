@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {  Card, Container, Grid, Header, Image, Table, Tab, TabProps } from "semantic-ui-react";
-import { getCWFixturesAPI } from "../api/PlayerRecApi";
+import { getCWFixturesAPI, getFantasyPlayersApi } from "../api/PlayerRecApi";
 import banner from "../images/banner.jpeg"
 
 const FantasyLeagueHome = () => {
@@ -8,18 +8,25 @@ const FantasyLeagueHome = () => {
     const [showPrevious, setShowPrevious] = useState(false);
     const [fixtures,setFixtures] = useState([]);
     const [activeTab, setActiveTab] = useState(1);
+    const [fantasyPlayers, setFantasyPlayers] = useState([]);
     
     const getFixtures = async () => {
       const response: any = await getCWFixturesAPI();
       setResponseData(response.data);
       setFixtures(response.data['current']);
     };
-  
+
+    const getFantasyPlayers = async () => {
+        const response: any = await getFantasyPlayersApi();
+        setFantasyPlayers(response.data);
+      };
+
     useEffect(() => {
       getFixtures();
       setShowPrevious(false);
       setActiveTab(1);
       setFixtures(resposeData['current']);
+      getFantasyPlayers();
     }, []);
     
     const handleTabChange = (event: React.MouseEvent<HTMLDivElement>, data: TabProps) => {
@@ -63,6 +70,30 @@ const FantasyLeagueHome = () => {
             </Table.Cell>
         </Table.Row>
     ))
+
+    const playerRows = fantasyPlayers.map((player: any) => {
+        const priceInMillions = (player.Cost / 1000000).toFixed(1); // Convert the price to millions and format it
+
+        return (
+          <Table.Row>
+            <Table.Cell>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Image src={'https://resources.premierleague.com/premierleague/badges/t'+player.code+'.svg'} style={{width:'20px',height:'20px', marginRight: '8px'}} />
+                {player.Surname}
+            </div>
+            </Table.Cell>
+            <Table.Cell>{player.PositionsList}</Table.Cell>
+            <Table.Cell>{priceInMillions}M</Table.Cell>
+            <Table.Cell>{player.SelectedByPercent}</Table.Cell>
+            <Table.Cell>{player.TotalPoints}</Table.Cell>
+            <Table.Cell>{player.GW35Forecast}</Table.Cell>
+            <Table.Cell>{player.GW36Forecast}</Table.Cell>
+            <Table.Cell>{player.GW37Forecast}</Table.Cell>
+            <Table.Cell>{player.GW38Forecast}</Table.Cell>
+          </Table.Row>
+        );
+      });
+
 
     const tableContent = (
         <div style={{height:'435px',overflow:'scroll'}}>
@@ -109,28 +140,53 @@ const FantasyLeagueHome = () => {
     ]
   
     return (
-      <Container style={{ width: "100%",marginTop:'10%' }}>
+        <Container style={{ width: "100%", marginTop: "10%" }}>
           <Container style={{ width: "100%" }}>
-            <Grid divided='vertically' style={{width:'100%'}}>
-                <Grid.Row columns={2}>
-                    <Grid.Column>
-                        <Card style={{width:'90%', marginLeft:'10%'}}
-                        image= {banner}
-                        header = 'Choose the best team for your fantasy game this week'
-                        description ='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-                        />   
-                    </Grid.Column>
-                    <Grid.Column>
-                    <Tab inverted panes={panes} activeIndex={activeTab} onTabChange={handleTabChange}/>
-                    </Grid.Column>
-                </Grid.Row>
+            <Grid divided="vertically" style={{ width: "100%" }}>
+              <Grid.Row columns={2}>
+                <Grid.Column>
+                  <Card
+                    style={{ width: "90%", marginLeft: "10%" }}
+                    image={banner}
+                    header="Choose the best team for your fantasy game this week"
+                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                  />
+                </Grid.Column>
+                <Grid.Column>
+                  <Tab
+                    inverted
+                    panes={panes}
+                    activeIndex={activeTab}
+                    onTabChange={handleTabChange}
+                  />
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column width={16}>
+                  <div style={{ height: "500px", overflow: "scroll" ,marginLeft: "15px"}}>
+                    <Table celled inverted>
+                      <Table.Header>
+                        <Table.Row>
+                          <Table.HeaderCell>Name</Table.HeaderCell>
+                          <Table.HeaderCell>Position</Table.HeaderCell>
+                          <Table.HeaderCell>Price</Table.HeaderCell>
+                          <Table.HeaderCell>Selected %</Table.HeaderCell>
+                          <Table.HeaderCell>Overall</Table.HeaderCell>
+                          <Table.HeaderCell>GW 35</Table.HeaderCell>
+                          <Table.HeaderCell>GW 36</Table.HeaderCell>
+                          <Table.HeaderCell>GW 37</Table.HeaderCell>
+                          <Table.HeaderCell>GW 38</Table.HeaderCell>
+                        </Table.Row>
+                      </Table.Header>
+                      <Table.Body>{playerRows}</Table.Body>
+                    </Table>
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
             </Grid>
           </Container>
-      </Container>
-    );
-  };
-  
-  export default FantasyLeagueHome;
+        </Container>
+      );
+    }
+
+    export default FantasyLeagueHome;

@@ -333,3 +333,16 @@ export const getCWFixturesAPI = () => {
             return {data: {'current': [], 'previous': []}}
         })
 }
+
+export const getFantasyPlayersApi = () => {
+    return axios
+      .get(`${API_BASE_URL}/fantasy-players`)
+      .then((response) => {
+        console.log("Fantasy players data:", response.data); // Log the data
+        return response;
+      })
+      .catch((error) => {
+        console.log("Error fetching fantasy players", error);
+        return { data: [] }; // Return an empty array in case of error
+      });
+  };
