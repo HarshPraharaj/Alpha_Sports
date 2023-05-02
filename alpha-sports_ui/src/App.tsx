@@ -8,6 +8,7 @@ import Header from './components/Headers';
 import Footer from './components/Footer';
 import ComingSoon from './components/CoomingSoon'
 import BBallPlayerStats from './components/BBallPlayerStats'
+import FantasyLeagueHome from './components/FantasyLeagueHome'
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/analytics' element={<Analytics/>}/>
-          <Route path='/services' element={<ComingSoon/>}/>
+          <Route path='/services' element={<FantasyLeagueHome/>}/>
           <Route path='/RadarChart' element={<RadarChart/>}/>
           <Route path='/recommendations' element={<PlayerRecommendation/>}/>
           <Route path='/injury' element={<ComingSoon/>}/>

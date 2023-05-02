@@ -6,6 +6,8 @@ from pymongo import MongoClient # type: ignore
 from flask_cors import CORS, cross_origin
 from sklearn.metrics.pairwise import cosine_similarity
 from pymongo.errors import ConnectionFailure
+from fantasy_run import *
+import math
 
 
 app = Flask(__name__)
@@ -206,6 +208,47 @@ def get_bball_player_stats():
     except Exception as e:
         logger.exception(f"Error retrieving player stats: {str(e)}")
         return jsonify([])
+    
+@app.route('/cw-fixtures',methods=['GET'])
+def get_currentweek_fixtures():
+    """Endpoint to fetch current week's fixture"""
+    try:
+        current_fixtures,previous_fixtures = get_fixtures()
+        return_dict = dict()
+        cw_fixtures = []
+        pw_fixtures = []
+        for _,row in current_fixtures.iterrows():
+            fixture = {
+                'team_h_name':row['team_h_name'],
+                'team_a_name':row['team_a_name'],
+                'team_h_code':row['team_h_code'],
+                'team_a_code':row['team_a_code'],
+                'team_h_score': None if math.isnan(row['team_h_score']) else row['team_h_score'],
+                'team_a_score': None if math.isnan(row['team_a_score']) else row['team_a_score'],             
+
+            }
+            cw_fixtures.append(fixture)
+        
+        for _,row in previous_fixtures.iterrows():
+            fixture = {
+                'team_h_name':row['team_h_name'],
+                'team_a_name':row['team_a_name'],
+                'team_h_code':row['team_h_code'],
+                'team_a_code':row['team_a_code'],
+                'team_h_score': None if math.isnan(row['team_h_score']) else row['team_h_score'],
+                'team_a_score': None if math.isnan(row['team_a_score']) else row['team_a_score'],             
+
+            }
+            pw_fixtures.append(fixture)
+        
+        return_dict['current'] = cw_fixtures
+        return_dict['previous'] = pw_fixtures
+        print(return_dict)
+        return return_dict
+    except Exception as e:
+        logger.exception("", e)
+        return jsonify({'current': [], 'previous': []})
+
 
 
 if __name__ == '__main__':

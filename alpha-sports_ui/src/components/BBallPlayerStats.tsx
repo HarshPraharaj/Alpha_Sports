@@ -3,6 +3,10 @@ import { Button, Container, Dropdown, Grid, Header } from 'semantic-ui-react'
 import { getBBallPlayersApi, getBBallPlayerStatsApi, getPlayersApi} from '../api/PlayerRecApi'
 import './PlayerRecommendation.css';
 import PlayerStatsData from './BBallStatsTable';
+import banner from "../images/banner.jpeg";
+import clipart1 from "../images/clipart1.png";
+import clipart2 from "../images/clipart2.png";
+import clipart3 from "../images/clipart3.png";
 
 const BBallPlayerStats = () => {
     const [players, setPlayers] = useState([])
@@ -35,6 +39,13 @@ const BBallPlayerStats = () => {
         }
     }
 
+    const scrollToServiceSection = () => {
+        const serviceDescription = document.querySelector(".service-description");
+        if (serviceDescription) {
+          serviceDescription.scrollIntoView({ behavior: "smooth" });
+        }
+      };
+
     const fetchData = async () => {
         const response = await getBBallPlayersApi()
         console.log('Response is', response)
@@ -45,7 +56,45 @@ const BBallPlayerStats = () => {
     }, [])
 
     return (
-        <Container style={{ width: '90%' }}>
+        <Container style={{ width: '100%' }}>
+         <div className="banner">
+         <img src={banner} alt="Player Recommendation Banner"/>
+     <button className="down-arrow" onClick={scrollToServiceSection}>
+       <i className="fas fa-chevron-down"></i>
+     </button>
+          </div>
+           <Container style={{ width: "1000px" }}>
+           <div className="service-description">
+           <Grid columns={3} stackable>
+       <Grid.Row>
+         <Grid.Column>
+           <div className="feature">
+             <img src={clipart1} alt="Clipart 1" className="clipart" />
+             <p className="feature-text">
+               Our advanced data-driven approach to player analysis ensures that you find the most promising talent for your team.
+             </p>
+           </div>
+         </Grid.Column>
+         <Grid.Column>
+           <div className="feature">
+             <img src={clipart2} alt="Clipart 2" className="clipart" />
+             <p className="feature-text">
+               Using state-of-the-art algorithms, we provide in-depth insights and recommendations tailored to your team's specific needs.
+             </p>
+           </div>
+         </Grid.Column>
+         <Grid.Column>
+           <div className="feature">
+             <img src={clipart3} alt="Clipart 3" className="clipart" />
+             <p className="feature-text">
+               Our comprehensive scouting reports give you a competitive edge in acquiring the best talent and building a stronger team.
+             </p>
+           </div>
+         </Grid.Column>
+       </Grid.Row>
+     </Grid>
+           </div>
+           </Container>
         <div className="player-recommendation-content">
             <Header as='h2'
                 content='Player Recommendation'

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://20230428t014821-dot-msds-603.uc.r.appspot.com';
-// "http://127.0.0.1:5000"
+const API_BASE_URL = "http://127.0.0.1:5000";
+//  process.env.REACT_APP_API_BASE_URL || 'https://20230428t014821-dot-msds-603.uc.r.appspot.com'
 
 const defaultPlayers = [
     {
@@ -319,5 +319,17 @@ export const getBBallPlayerStatsApi = (player_name: string) => {
         .catch(error => {
             console.log('Error fetching player stats', error)
             return {data: defaultPlayerStats}
+        })
+}
+
+export const getCWFixturesAPI = () => { 
+    return axios.get(`${API_BASE_URL}/cw-fixtures`)
+        .then(response => {
+            console.log(response)
+            return response
+        })
+        .catch(error => {
+            console.log('Error fetching fixtures', error)
+            return {data: {'current': [], 'previous': []}}
         })
 }
