@@ -32,7 +32,7 @@ const Home = () => (
                   <img src={clipart2} alt="Clipart 2" className="clipart" />
                   <p className="feature-text">
                     Using state-of-the-art algorithms, we provide in-depth
-                    insights and recommendations tailored to your team's specific
+                    insights, analytics and recommendations tailored to your team's specific
                     needs.
                   </p>
                 </div>

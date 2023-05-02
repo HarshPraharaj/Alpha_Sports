@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {  Card, Container, Grid, Header, Image, Table, Tab, TabProps } from "semantic-ui-react";
 import { getCWFixturesAPI, getFantasyPlayersApi } from "../api/PlayerRecApi";
-import banner from "../images/banner.jpeg"
+import fpl_img from "../images/fpl_img.png"
 
 const FantasyLeagueHome = () => {
     const [resposeData, setResponseData] = useState({'current':[],'previous':[]});
@@ -96,7 +96,7 @@ const FantasyLeagueHome = () => {
 
 
     const tableContent = (
-        <div style={{height:'435px',overflow:'scroll'}}>
+        <div style={{height:'478px',overflow:'scroll'}}>
         <Table inverted>
                         <Table.Header>
                         <Table.Row>
@@ -147,9 +147,13 @@ const FantasyLeagueHome = () => {
                 <Grid.Column>
                   <Card
                     style={{ width: "90%", marginLeft: "10%" }}
-                    image={banner}
-                    header="Choose the best team for your fantasy game this week"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    image={fpl_img}
+                    header="GW35 Buy, Sell, Keep"
+                    description="In this article, we crunch the numbers, analyze the fixtures, take advice from the Algorithm, 
+                    and decide which player to buy, which player to sell, and which player to keep for Gameweek 34.
+                    We also look at the top five key players for Fantasy Premier League (FPL) in Gameweek 34. 
+                    March's assist against Forest made it four over the last six gameweeks for the 28-year-old, 
+                    only De Bruyne (five) has notched more amongst midfielders over that period."
                   />
                 </Grid.Column>
                 <Grid.Column>
@@ -167,7 +171,7 @@ const FantasyLeagueHome = () => {
                     <Table celled inverted>
                       <Table.Header>
                         <Table.Row>
-                          <Table.HeaderCell>Name</Table.HeaderCell>
+                          <Table.HeaderCell>Player Name</Table.HeaderCell>
                           <Table.HeaderCell>Position</Table.HeaderCell>
                           <Table.HeaderCell>Price</Table.HeaderCell>
                           <Table.HeaderCell>Selected %</Table.HeaderCell>

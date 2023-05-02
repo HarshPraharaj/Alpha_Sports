@@ -260,7 +260,7 @@ def get_fantasy_players():
     try:
         # Replace NaN values with None
         merged_df.fillna(value=0, inplace=True)
-        merged_df.sort_values(by=['total_points'], ascending=False, inplace=True)
+        merged_df.sort_values(by=['SelectedByPercent'], ascending=False, inplace=True)
         # Convert the DataFrame to a list of dictionaries
         fantasy_players = merged_df.to_dict(orient="records")
         return jsonify(fantasy_players)

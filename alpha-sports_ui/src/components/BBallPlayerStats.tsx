@@ -3,7 +3,7 @@ import { Button, Container, Dropdown, Grid, Header } from 'semantic-ui-react'
 import { getBBallPlayersApi, getBBallPlayerStatsApi, getPlayersApi} from '../api/PlayerRecApi'
 import './PlayerRecommendation.css';
 import PlayerStatsData from './BBallStatsTable';
-import banner from "../images/banner.jpeg";
+import salaryPred_banner from "../images/salaryPred_banner.png";
 import clipart1 from "../images/clipart1.png";
 import clipart2 from "../images/clipart2.png";
 import clipart3 from "../images/clipart3.png";
@@ -58,7 +58,7 @@ const BBallPlayerStats = () => {
     return (
         <Container style={{ width: '100%' }}>
          <div className="banner">
-         <img src={banner} alt="Player Recommendation Banner"/>
+         <img src={salaryPred_banner} alt="Player Recommendation Banner"/>
      <button className="down-arrow" onClick={scrollToServiceSection}>
        <i className="fas fa-chevron-down"></i>
      </button>
@@ -79,7 +79,7 @@ const BBallPlayerStats = () => {
            <div className="feature">
              <img src={clipart2} alt="Clipart 2" className="clipart" />
              <p className="feature-text">
-               Using state-of-the-art algorithms, we provide in-depth insights and recommendations tailored to your team's specific needs.
+               Using state-of-the-art algorithms, we provide in-depth insights, analytics and recommendations tailored to your team's specific needs.
              </p>
            </div>
          </Grid.Column>

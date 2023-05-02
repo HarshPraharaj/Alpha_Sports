@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Dropdown, Grid, Header } from "semantic-ui-react";
 import { getPlayersApi, getRecommendationsApi } from "../api/PlayerRecApi";
-import banner from "../images/banner.jpeg";
+import plyrRec_banner from "../images/plyrRec_banner.jpeg";
 import clipart1 from "../images/clipart1.png";
 import clipart2 from "../images/clipart2.png";
 import clipart3 from "../images/clipart3.png";
@@ -66,7 +66,7 @@ const PlayerRecommendation = () => {
   return (
     <Container style={{ width: "100%" }}>
       <div className="banner">
-      <img src={banner} alt="Player Recommendation Banner" />
+      <img src={plyrRec_banner} alt="Player Recommendation Banner" />
   <button className="down-arrow" onClick={scrollToServiceSection}>
     <i className="fas fa-chevron-down"></i>
   </button>
@@ -87,7 +87,7 @@ const PlayerRecommendation = () => {
         <div className="feature">
           <img src={clipart2} alt="Clipart 2" className="clipart" />
           <p className="feature-text">
-            Using state-of-the-art algorithms, we provide in-depth insights and recommendations tailored to your team's specific needs.
+            Using state-of-the-art algorithms, we provide in-depth insights, analytics and recommendations tailored to your team's specific needs.
           </p>
         </div>
       </Grid.Column>
