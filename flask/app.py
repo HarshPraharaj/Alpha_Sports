@@ -249,7 +249,7 @@ def get_currentweek_fixtures():
 
 # Load the CSV file
 _, _, teams_df = get_data_as_df('https://fantasy.premierleague.com/api/bootstrap-static/')
-fantasy_players_df = pd.read_csv("../data/football_rec/Forecasts.csv")
+fantasy_players_df = pd.read_csv("data/Forecasts.csv")
 merged_df = pd.merge(fantasy_players_df, teams_df[["code","short_name"]], left_on='Team', right_on='short_name', how='left')
 
 @app.route('/fantasy-players', methods=['GET'])
