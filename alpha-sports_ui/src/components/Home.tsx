@@ -1,19 +1,50 @@
-import { Container, Header, Grid } from 'semantic-ui-react'
-import Cards from './Cards'
-import './PlayerRecommendation.css'
+import { Container, Header, Grid } from "semantic-ui-react";
+import { useState } from "react";
+
+import Cards from "./Cards";
+import "./PlayerRecommendation.css";
 import clipart1 from "../images/clipart1.png";
 import clipart2 from "../images/clipart2.png";
 import clipart3 from "../images/clipart3.png";
+import thumbnailImage from "../images/thumbnail.jpg";
 
+const fantasyText =
+  "Looking for an edge in your fantasy league? Look no further than our fantasy player recommender!";
+const analyticsText =
+  "Try out our analytics feature and gain a winning advantage with our state-of-the art AI techniques!";
 
-const fantasyText = "Looking for an edge in your fantasy league? Look no further than our fantasy player recommender!"
-const analyticsText = "Try out our analytics feature and gain a winning advantage with our state-of-the art AI techniques!"
-
-const Home = () => (
+const Home = () => {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  return (
     <Container style={{ width: "100%" }}>
-      <video autoPlay loop muted playsInline className="background-video">
-        <source src="https://drive.google.com/uc?id=1302DRHZzeBXOy2xkxSytqHZvTkzd6PEi" type="video/mp4" />
-        </video>
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="background-video"
+        onCanPlayThrough={() => setVideoLoaded(true)}
+        style={{ display: videoLoaded ? "block" : "none" }}
+      >
+        <source
+          src="https://drive.google.com/uc?id=1302DRHZzeBXOy2xkxSytqHZvTkzd6PEi"
+          type="video/mp4"
+        />
+      </video>
+      {!videoLoaded && (
+        <img
+          src={thumbnailImage}
+          alt="Video loading"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            // position: 'absolute',
+            top: 0,
+            left: 0,
+          }}
+        />
+      )}
       <Container style={{ width: "1000px" }}>
         <div className="service-description">
           <Grid columns={3} stackable>
@@ -32,8 +63,8 @@ const Home = () => (
                   <img src={clipart2} alt="Clipart 2" className="clipart" />
                   <p className="feature-text">
                     Using state-of-the-art algorithms, we provide in-depth
-                    insights, analytics and recommendations tailored to your team's specific
-                    needs.
+                    insights, analytics and recommendations tailored to your
+                    team's specific needs.
                   </p>
                 </div>
               </Grid.Column>
@@ -41,8 +72,9 @@ const Home = () => (
                 <div className="feature">
                   <img src={clipart3} alt="Clipart 3" className="clipart" />
                   <p className="feature-text">
-                    Our comprehensive scouting reports give you a competitive edge
-                    in acquiring the best talent and building a stronger team.
+                    Our comprehensive scouting reports give you a competitive
+                    edge in acquiring the best talent and building a stronger
+                    team.
                   </p>
                 </div>
               </Grid.Column>
@@ -50,7 +82,7 @@ const Home = () => (
           </Grid>
         </div>
       </Container>
-  
+
       <Container text>
         <Header
           as="h1"
@@ -90,5 +122,6 @@ const Home = () => (
       </Container>
     </Container>
   );
-  
-  export default Home;
+};
+
+export default Home;
