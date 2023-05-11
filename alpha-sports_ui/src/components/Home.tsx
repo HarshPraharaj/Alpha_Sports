@@ -1,6 +1,6 @@
 import { Container, Header, Grid } from "semantic-ui-react";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import ReactGA from "react-ga4";
 import Cards from "./Cards";
 import "./PlayerRecommendation.css";
 import clipart1 from "../images/clipart1.png";
@@ -15,6 +15,17 @@ const analyticsText =
 
 const Home = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
+
+  useEffect(() => {
+    ReactGA.initialize("G-NHZGBD6ZV3"); // Replace with your Google Analytics tracking ID
+
+    // Send pageview with a custom path
+    ReactGA.send({
+      hitType: "pageview",
+      page: window.location.pathname + window.location.search,
+    });
+  }, []);
+
   return (
     <Container style={{ width: "100%" }}>
       <video
