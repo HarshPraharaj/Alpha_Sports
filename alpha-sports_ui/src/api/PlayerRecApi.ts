@@ -72,105 +72,6 @@ const defaultRecommendations = [
         team:  'Real Betis',
         league: 'La Liga',
         similarity: '89.33%'
-    },
-    {
-        id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
-        age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
-    },
-    {
-        id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
-        age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
-    },
-    {
-        id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
-        age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
-    },
-    {
-        id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
-        age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
-    },
-    {
-        id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
-        age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
-    },
-    {
-        id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
-        age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
-    },
-    {
-        id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
-        age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
-    },
-    {
-        id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
-        age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
-    },
-    {
-        id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
-        age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
-    },
-    {
-        id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
-        age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
-    },
-    {
-        id:  1,
-        name:  'Jay Spearing',
-        position: 'MDF',
-        age:  24,
-        team:  'Liverpool FC',
-        league: 'English Premier League',
-        similarity: '78%'
     }
 ]
 
@@ -297,7 +198,7 @@ export const getComparisonApi = (player_id1: number, player_id2: number) => {
 }
 
 export const getBBallPlayersApi = () => { 
-    return axios.get(`${API_BASE_URL}/bball-players`)
+    return axios.get(`${API_BASE_URL}/bball-players`, {timeout: 2000})
         .then(response => {
             console.log(response)
             return response
@@ -311,7 +212,7 @@ export const getBBallPlayersApi = () => {
 export const getBBallPlayerStatsApi = (player_name: string) => {
     console.log("Fetch stats",player_name)
     const endpoint = `${API_BASE_URL}/bball-player-stats?player_name=${player_name}`
-    return axios.get(endpoint)
+    return axios.get(endpoint, {timeout: 2000})
         .then(response => {
             console.log(response)
             return response
