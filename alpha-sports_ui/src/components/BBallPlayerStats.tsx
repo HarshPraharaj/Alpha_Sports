@@ -47,6 +47,7 @@ const BBallPlayerStats = () => {
       };
 
     const fetchData = async () => {
+        console.log('Fetch players called')
         const response = await getBBallPlayersApi()
         console.log('Response is', response)
         setPlayers(response.data)
